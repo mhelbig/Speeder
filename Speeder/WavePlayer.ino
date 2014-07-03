@@ -18,17 +18,16 @@ boolean playWaveFile(char *waveFile, int priority)
 {
   static int currentPlayPriority = 0;
   
-//  Serial.println("Entering playWaveFile()");
-//  if (!wave.isplaying) currentPlayPriority = 0;  // clear any previous priorities
-  
   if (wave.isplaying)
   {
     if(priority <= currentPlayPriority)
     {
+      Serial.print(waveFile);
+      Serial.println(" has lower priority.  Ignoring.");
       return(false);
     }
     wave.stop();
-    Serial.println("Superceded by higher priority sound");
+    Serial.print("Superceded by higher priority. ");
   }
   
   Serial.print("Playing: ");

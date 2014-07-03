@@ -33,11 +33,17 @@ void playRandomSounds(void)
 
   rndSound = random(0, numberOfRandomSounds);       //choose a new random sound effect
   rndTime = random(MIN_RANDOM_WAIT_TIME,MAX_RANDOM_WAIT_TIME);                   //choose a new random time between plays (in mSec)
-  Serial.print("Next random file plays in: "); Serial.println(rndTime);
+  Serial.print("Next random in "); Serial.print(rndTime); Serial.println("mS");
 }
 
 void initializeRandomGenerator(void)
 {
   randomSeed(analogRead(0));
-  Serial.println("Random generator initialized");
+  Serial.println("RND gen init.");
 }
+
+void playStarWarsThemeSong(void)
+{
+  playWaveFile("SWTM001.wav",10);  //start things off with the Star Wars theme song
+}
+

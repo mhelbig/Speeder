@@ -14,11 +14,10 @@ void runCBsequence(void)
   
   int numberOfSounds = sizeof(CBsound)/sizeof(CBsound[0]);
 
-  if(millis() - waitTimer < 30000) return;
-  waitTimer = millis();
-  
-  playWaveFile(CBsound[index].fileName,CBsound[index].playPriority);
-
-  index ++;
-  if (index > numberOfSounds) index = 0;
+  if (userInput == 'C')
+  {
+    playWaveFile(CBsound[index].fileName,CBsound[index].playPriority);
+    index ++;
+    if (index >= numberOfSounds) index = 0;
+  }
 }

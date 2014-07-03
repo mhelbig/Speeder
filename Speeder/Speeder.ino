@@ -1,5 +1,8 @@
 #include <WaveHC.h>
 #include <WaveUtil.h>
+#include <MemoryFree.h>
+
+char userInput;
 
 struct wavePlaylist
 {
@@ -10,19 +13,23 @@ struct wavePlaylist
 //////////////////////////////////// SETUP
 void setup() {
   Serial.begin(9600);
-  Serial.println("Speeder Project Main System Control Module");
+  Serial.println("Speeder Main System Control Module");
   initializeSDcard();
   initializeRandomGenerator();
-  Serial.println("System ready");
-  
-//  playWaveFile("SWTM001.wav",10);  //start things off with the Star Wars theme song
+  playStarWarsThemeSong();
+  Serial.print("Free Memory = ");  Serial.println(freeMemory());
 }
 
 //////////////////////////////////// LOOP
 void loop()
 {
- playRandomSounds();
- runCBsequence();
- processGoodGuys();
+  userInput = readUserInputs();
+  
+  processJetThrusters();  // 'T' key
+  processLaser();         // 'L' key
+  runCBsequence();        // 'C' key
+  processGoodGuys();      // 'G' key
+//  processBadGuys();       // 'B' key
+  playRandomSounds();
 }
 

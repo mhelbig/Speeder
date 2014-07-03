@@ -14,11 +14,10 @@ void processGoodGuys(void)
   
   int numberOfSounds = sizeof(goodGuySound)/sizeof(goodGuySound[0]);
 
-  if(millis() - waitTimer < 25000) return;
-  waitTimer = millis();
-  
-  playWaveFile(goodGuySound[index].fileName,goodGuySound[index].playPriority);
-
-  index ++;
-  if (index > numberOfSounds) index = 0;
+  if (userInput == 'G')
+  {  
+    playWaveFile(goodGuySound[index].fileName,goodGuySound[index].playPriority);
+    index ++;
+    if (index >= numberOfSounds) index = 0;
+  }
 }
