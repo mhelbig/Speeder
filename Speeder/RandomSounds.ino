@@ -1,5 +1,5 @@
-#define MIN_RANDOM_WAIT_TIME 4000
-#define MAX_RANDOM_WAIT_TIME 9000
+#define MIN_RANDOM_WAIT_TIME 20  // time is in seconds
+#define MAX_RANDOM_WAIT_TIME 60
 
 wavePlaylist randomSoundEffect[]=
 {
@@ -32,7 +32,7 @@ void playRandomSounds(void)
   playWaveFile(randomSoundEffect[rndSound].fileName,randomSoundEffect[rndSound].playPriority);
 
   rndSound = random(0, numberOfRandomSounds);       //choose a new random sound effect
-  rndTime = random(MIN_RANDOM_WAIT_TIME,MAX_RANDOM_WAIT_TIME);                   //choose a new random time between plays (in mSec)
+  rndTime = random(MIN_RANDOM_WAIT_TIME * 1000, MAX_RANDOM_WAIT_TIME * 1000);  //choose a new random time between plays (in mSec)
   Serial.print("Next random in "); Serial.print(rndTime); Serial.println("mS");
 }
 
@@ -44,6 +44,6 @@ void initializeRandomGenerator(void)
 
 void playStarWarsThemeSong(void)
 {
-  playWaveFile("SWTM001.wav",10);  //start things off with the Star Wars theme song
+  playWaveFile("SWTM001.wav",0);  //start things off with the Star Wars theme song
 }
 

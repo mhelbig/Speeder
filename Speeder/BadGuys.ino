@@ -1,4 +1,4 @@
-/*wavePlaylist badGuySound[]=
+wavePlaylist badGuySound[]=
 {
   {"Jaba001.wav",4},
   {"Alien01.wav",4},
@@ -21,4 +21,4 @@ void processBadGuys(void)
     if (index >= numberOfSounds) index = 0;
   }
 }
-*/
+

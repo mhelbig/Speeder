@@ -29,7 +29,7 @@ void loop()
   processLaser();         // 'L' key
   runCBsequence();        // 'C' key
   processGoodGuys();      // 'G' key
-//  processBadGuys();       // 'B' key
+  processBadGuys();       // 'B' key
   playRandomSounds();
 }
 
