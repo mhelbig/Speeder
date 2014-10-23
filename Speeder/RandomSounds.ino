@@ -1,5 +1,5 @@
-#define MIN_RANDOM_WAIT_TIME 20  // time is in seconds
-#define MAX_RANDOM_WAIT_TIME 60
+#define MIN_RANDOM_WAIT_TIME 30000  // time is in milliseconds
+#define MAX_RANDOM_WAIT_TIME 60000
 
 wavePlaylist randomSoundEffect[]=
 {
@@ -16,7 +16,7 @@ wavePlaylist randomSoundEffect[]=
 void playRandomSounds(void)
 {
   static long holdoffTime;
-  static long rndTime = 2000;
+  static long rndTime;
   static long rndSound;
   
   int numberOfRandomSounds = sizeof(randomSoundEffect)/sizeof(randomSoundEffect[0]);
@@ -31,8 +31,8 @@ void playRandomSounds(void)
 
   playWaveFile(randomSoundEffect[rndSound].fileName,randomSoundEffect[rndSound].playPriority);
 
-  rndSound = random(0, numberOfRandomSounds);       //choose a new random sound effect
-  rndTime = random(MIN_RANDOM_WAIT_TIME * 1000, MAX_RANDOM_WAIT_TIME * 1000);  //choose a new random time between plays (in mSec)
+  rndSound = random(numberOfRandomSounds);       //choose a new random sound effect
+  rndTime = random(MIN_RANDOM_WAIT_TIME, MAX_RANDOM_WAIT_TIME);  //choose a new random time between plays (in mSec)
   Serial.print("Next random in "); Serial.print(rndTime); Serial.println("mS");
 }
 
