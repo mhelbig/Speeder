@@ -1,6 +1,7 @@
 #include <WaveHC.h>
 #include <WaveUtil.h>
 #include <MemoryFree.h>
+#include <Keypad.h>
 
 char userInput;
 
@@ -23,7 +24,7 @@ void setup() {
 //////////////////////////////////// LOOP
 void loop()
 {
-  userInput = readUserInputs();
+  userInput = readKeypad(); //readUserInputs();
   
   processJetThrusters();  // 'T' key
   processLaser();         // 'L' key
