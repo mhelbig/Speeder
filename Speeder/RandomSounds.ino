@@ -1,5 +1,5 @@
-#define MIN_RANDOM_WAIT_TIME 30000  // time is in milliseconds
-#define MAX_RANDOM_WAIT_TIME 60000
+#define MIN_RANDOM_WAIT_TIME 2000  // time is in milliseconds
+#define MAX_RANDOM_WAIT_TIME 5000
 
 wavePlaylist randomSoundEffect[]=
 {
@@ -10,7 +10,37 @@ wavePlaylist randomSoundEffect[]=
   {"R2D2005.wav",1},
   {"Chew001.wav",1},
   {"Chew002.wav",1},
-  {"Chew003.wav",1}
+  {"Chew003.wav",1},
+  {"LSSPB01.wav",1},
+  {"LSSPB02.wav",1},
+  {"LSSPB03.wav",1},
+  {"LSSRB01.wav",1},
+  {"LSSRB02.wav",1},
+  {"LSSRB03.wav",1},
+  {"LSSRB04.wav",1},
+  {"LSSRB05.wav",1},
+  {"LSSRB06.wav",1},
+  {"LSSRB07.wav",1},
+  {"SATPB01.wav",1},
+  {"SATPB02.wav",1},
+  {"SATPB03.wav",1},
+  {"SATPB04.wav",1},
+  {"SFFB01.wav",1},
+  {"SOFB.wav",1},
+  {"SSPB01.wav",1},
+  {"SSPB02.wav",1},
+  {"SSPB03.wav",1},
+  {"SSPB04.wav",1},
+  {"SSPB05.wav",1},
+  {"SSPB06.wav",1},
+  {"SSPB07.wav",1},
+  {"SSPB08.wav",1},
+  {"SSTO01.wav",1},
+  {"TACFA.wav",1},
+  {"EXPRL.wav",1},
+  {"PR01.wav",1},
+  {"PR02.wav",1},
+  {"PR03.wav",1}
 };
 
 void playRandomSounds(void)
