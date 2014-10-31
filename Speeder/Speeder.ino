@@ -28,9 +28,13 @@ void loop()
   
   processJetThrusters();  // 'T' key
   processLaser();         // 'L' key
+  processBlaster();       // 'R' key
+  processExplosion();     // 'E' key
+  processGun();           // 'N' key
   runCBsequence();        // 'C' key
   processGoodGuys();      // 'G' key
   processBadGuys();       // 'B' key
-  playRandomSounds();
+  processStartSpeeder();  // 'S' key
+//  playRandomSounds();
 }
 

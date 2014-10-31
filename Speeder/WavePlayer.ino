@@ -23,7 +23,7 @@ boolean playWaveFile(char *waveFile, int priority)
     if(priority <= currentPlayPriority)
     {
       Serial.print(waveFile);
-      Serial.println(" has lower priority.  Ignoring.");
+      Serial.println(" has equal or lower priority.  Ignoring.");
       return(false);
     }
     wave.stop();
@@ -38,6 +38,7 @@ boolean playWaveFile(char *waveFile, int priority)
   if (!wave.create(file))error("wave.create");
   wave.play();
   sdErrorCheck();  // check for play errors
+  return(true);    // true means we played the file
 }
 
 void initializeSDcard(void)
