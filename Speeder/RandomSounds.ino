@@ -3,14 +3,6 @@
 
 wavePlaylist randomSoundEffect[]=
 {
-  {"R2D2001.wav",1},
-  {"R2D2002.wav",1},
-  {"R2D2003.wav",1},
-  {"R2D2004.wav",1},
-  {"R2D2005.wav",1},
-  {"Chew001.wav",1},
-  {"Chew002.wav",1},
-  {"Chew003.wav",1},
   {"LSSPB01.wav",1},
   {"LSSPB02.wav",1},
   {"LSSPB03.wav",1},

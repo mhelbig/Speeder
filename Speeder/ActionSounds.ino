@@ -1,47 +1,24 @@
-void processJetThrusters(void)
+void processActionSounds(void)
 {
-  if (userInput == 'T')
+  switch (userInput)
   {  
-    playWaveFile("Take_Off.wav",4);
-  }
-}
-
-void processLaser(void)
-{
-  if (userInput == 'L')
-  {  
+  case 'T':
+    playWaveFile("Take_Off.wav",3);
+    break;
+  case 'L':    
     playWaveFile("Laser.wav",4);
-  }
-}
-
-void processBlaster(void)
-{
-  if (userInput == 'R')
-  {  
+    break;
+  case 'P':
     playWaveFile("Blaster.wav",4);
-  }
-}
-
-void processExplosion(void)
-{
-  if (userInput == 'E')
-  {  
+    break;
+  case 'E':
     playWaveFile("EXPRL.wav",4);
-  }
-}
-
-void processGun(void)
-{
-  if (userInput == 'N')
-  {  
+    break;
+  case 'N':
     playWaveFile("Gun9mm.wav",4);
-  }
-}
-
-void processStartSpeeder(void)
-{
-  if (userInput == 'S')
-  {  
+    break;
+  case 'S':
     playWaveFile("PRSTO.wav",4);
   }
 }
+

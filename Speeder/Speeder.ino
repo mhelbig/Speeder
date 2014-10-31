@@ -26,15 +26,12 @@ void loop()
 {
   userInput = readKeypad(); //readUserInputs();
   
-  processJetThrusters();  // 'T' key
-  processLaser();         // 'L' key
-  processBlaster();       // 'R' key
-  processExplosion();     // 'E' key
-  processGun();           // 'N' key
+  processActionSounds();
   runCBsequence();        // 'C' key
   processGoodGuys();      // 'G' key
   processBadGuys();       // 'B' key
-  processStartSpeeder();  // 'S' key
-//  playRandomSounds();
+  processR2D2();          // 'R' key
+  processChewy();         // 'W' key
+  playRandomSounds();
 }
 
