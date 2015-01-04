@@ -27,6 +27,11 @@ void loop()
   userInput = readKeypad(); //readUserInputs();
   
   processActionSounds();
+  if (!waveFileIsPlaying())
+  {
+    SetVibratorMotorLeft(0);
+    SetVibratorMotorRight(0);
+  }
   runCBsequence();        // 'C' key
   processGoodGuys();      // 'G' key
   processBadGuys();       // 'B' key

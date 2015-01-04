@@ -7,9 +7,11 @@ void processActionSounds(void)
     break;
   case 'L':    
     playWaveFile("Laser.wav",4);
+    SetVibratorMotorLeft(127);
     break;
   case 'P':
     playWaveFile("Blaster.wav",4);
+    SetVibratorMotorRight(127);
     break;
   case 'E':
     playWaveFile("EXPRL.wav",4);
@@ -19,6 +21,9 @@ void processActionSounds(void)
     break;
   case 'S':
     playWaveFile("PRSTO.wav",4);
+  case 'M':
+    SetVibratorMotorLeft(0);
+    SetVibratorMotorRight(0);
   }
 }
 
