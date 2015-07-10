@@ -16,13 +16,13 @@ char keys[ROWS][COLS] =
 // Rows:    6=RED; 7=ORN; 8=YEL; 9=BRN
 // Motors:  PWR=GRN; LEFT=WHT; RIGHT=BLU
 
-byte rowPins[ROWS] = {40, 41, 42, 43}; //connect to the row pinouts of the keypad
 byte colPins[COLS] = {36, 37, 38, 39}; //connect to the column pinouts of the keypad
+byte rowPins[ROWS] = {40, 41, 42, 43}; //connect to the row pinouts of the keypad
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 
 
-char readKeypad()
+char scanSteeringWheel()
 {
   char key = keypad.getKey();
   

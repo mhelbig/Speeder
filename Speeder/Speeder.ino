@@ -2,6 +2,8 @@
 #include <WaveUtil.h>
 #include <MemoryFree.h>
 #include <Keypad.h>
+#include <Button.h>
+#include <M66004Vfd.h> // VFD library.
 
 char userInput;
 
@@ -15,8 +17,10 @@ struct wavePlaylist
 void setup() {
   Serial.begin(9600);
   Serial.println("Speeder Main System Control Module");
+  initializeVaccuumFluorescentDisplay();
   initializeSDcard();
   initializeRandomGenerator();
+  displayMessageVFD("System Normal");
   playStarWarsThemeSong();
   Serial.print("Free Memory = ");  Serial.println(freeMemory());
 }
@@ -24,7 +28,7 @@ void setup() {
 //////////////////////////////////// LOOP
 void loop()
 {
-  userInput = readKeypad(); //readUserInputs();
+  userInput = scanForUserInput(); //readUserConsole();
   
   processActionSounds();
   if (!waveFileIsPlaying())
@@ -37,6 +41,6 @@ void loop()
   processBadGuys();       // 'B' key
   processR2D2();          // 'R' key
   processChewy();         // 'W' key
-  playRandomSounds();
+//  playRandomSounds();
 }
 
