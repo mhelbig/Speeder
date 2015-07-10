@@ -3,7 +3,7 @@
 #define INVERT true        //high state = button not pressed for all inputs
 #define DEBOUNCE_MS 20     //debounce time = 20 mS for all inputs
 
-// define the passenger button inputs:
+// define and declare the passenger button inputs:
 #define BUTTON_PASSENGER_GOOD_GUY   A8
 #define BUTTON_PASSENGER_BAD_GUY    A9
 #define BUTTON_PASSENGER_WEAPON_1   A10
@@ -12,8 +12,6 @@
 #define BUTTON_PASSENGER_WEAPON_4   A13
 #define BUTTON_PASSENGER_WEAPON_5   A14
 #define BUTTON_PASSENGER_WEAPON_6   A15
-
-// Declare the passenger input buttons:
 Button passengerGoodGuy(BUTTON_PASSENGER_GOOD_GUY, PULLUP, INVERT, DEBOUNCE_MS);
 Button passengerBadGuy(BUTTON_PASSENGER_BAD_GUY, PULLUP, INVERT, DEBOUNCE_MS);
 Button passengerWeapon1(BUTTON_PASSENGER_WEAPON_1, PULLUP, INVERT, DEBOUNCE_MS);
@@ -23,15 +21,24 @@ Button passengerWeapon4(BUTTON_PASSENGER_WEAPON_4, PULLUP, INVERT, DEBOUNCE_MS);
 Button passengerWeapon5(BUTTON_PASSENGER_WEAPON_5, PULLUP, INVERT, DEBOUNCE_MS);
 Button passengerWeapon6(BUTTON_PASSENGER_WEAPON_6, PULLUP, INVERT, DEBOUNCE_MS);
 
+//define and declare the CB Mic Key input:
+#define BUTTON_CB_MIC_KEY           9
+Button cbMICkey(BUTTON_CB_MIC_KEY, PULLUP, INVERT, DEBOUNCE_MS);
+
 char input;
 
 char scanForUserInput(void)
 {
-// Check the console for input.  This will only be used for testing and debugging.
+  // The order of these functions determines thier priority, as the function returns as soon as a valid input is founds
+  // Check the console for input.  This will only be used for testing and debugging.
   if (Serial.available() > 0) return(toupper(Serial.read()));
 
 // Then look for input from the steering wheel
   input = scanSteeringWheel();
+  if (input) return(input);
+  
+// Then look for input from the CB mic:
+  scanCBmicKey();
   if (input) return(input);
 
 // Then look for input from the passenger buttons
@@ -42,6 +49,7 @@ char scanForUserInput(void)
   else return(0);
 }
 
+// Passenger panel inputs:
 char scanPassengerButtons(void)
 {
   //Read all the buttons (this needs to be called often)
@@ -81,4 +89,12 @@ char scanPassengerButtons(void)
   return(0);
 }
 
-
+// CB microphone input:
+char scanCBmicKey(void)
+{
+  //Read the buttons (this needs to be called often)
+  cbMICkey.read();
+  
+  if(cbMICkey.wasPressed())
+    return('C');
+}
