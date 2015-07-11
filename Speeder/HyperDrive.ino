@@ -1,9 +1,28 @@
+// define the hyperdrive operating parameters 
+#define PULLUP true        //use the Arduino's internal pullup resistors for all the inputs.
+#define INVERT true        //high state = button not pressed for all inputs
+#define DEBOUNCE_MS 20     //debounce time = 20 mS for all inputs
+#define MINIMUM_REPAIR_TIME 300 // Amount of time (in seconds) that the hyperdrive needs to be dissasembled before it can be tested and reactivated
+
+// define and declare the hyperdrive repair compartment inputs:
+#define HYPERDRIVE_OK   24
+#define HYPERDRIVE_TEST 25
+Button hyperDriveOK(HYPERDRIVE_OK, PULLUP, INVERT, DEBOUNCE_MS);
+Button hyperDriveTest(HYPERDRIVE_TEST, PULLUP, INVERT, DEBOUNCE_MS);
+
 #define HYPERDRIVE_WARNING_TEMPERATURE 5    // Time in seconds before hyperdrive overheats when in Ludicrous speed mode
 #define HYPERDRIVE_OVERHEAT_TEMPERATURE 10  // Time in seconds before hyperdrive overheats when in Ludicrous speed mode
 
 static char hyperDriveSpeed = '0';
 static int hyperDriveTemperature = 0;
 static unsigned long oneSecondTimer = millis();
+
+void processHyperDrive(void)
+{
+  processThrottleLever();
+  processHyperDriveTemperature();    // Determined by throttle position
+  processHyperDriveRepair();
+}
 
 void processThrottleLever(void)
 {
@@ -70,8 +89,21 @@ void processHyperDriveTemperature(void)
   }
 }
 
-void hyperDriveRepaired(void)
+void processHyperDriveRepair(void)
 {
-  hyperDriveTemperature = 0;
+  static bool hyperDriveHasBeenDisassembled = 0;
+ 
+  //Read all the hyperdrive compartment inputs (this needs to be called often)
+  hyperDriveOK.read();
+  hyperDriveTest.read();
+  
+  if (hyperDriveOK.releasedFor(MINIMUM_REPAIR_TIME))
+    hyperDriveHasBeenDisassembled = 1;
+
+  if (hyperDriveHasBeenDisassembled && hyperDriveOK.isPressed() && hyperDriveTest.wasPressed())
+  {
+    hyperDriveTemperature = 0;
+    hyperDriveHasBeenDisassembled = 0;
+  }
 }
 

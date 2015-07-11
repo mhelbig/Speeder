@@ -41,8 +41,7 @@ void loop()
   processBadGuys();       // 'B' key
   processR2D2();          // 'R' key
   processChewy();         // 'W' key
-  processThrottleLever();
-  processHyperDriveTemperature();    // Determined by throttle position
+  processHyperDrive();    // Takes care of throttle, temperature, repair
 //  playRandomSounds();
 }
 
