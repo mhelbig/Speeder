@@ -20,7 +20,7 @@ void setup() {
   initializeVaccuumFluorescentDisplay();
   initializeSDcard();
   initializeRandomGenerator();
-  displayMessageVFD("System Normal");
+  displayMessageVFD("  System Ready");
   playStarWarsThemeSong();
   Serial.print("Free Memory = ");  Serial.println(freeMemory());
 }
@@ -41,6 +41,8 @@ void loop()
   processBadGuys();       // 'B' key
   processR2D2();          // 'R' key
   processChewy();         // 'W' key
+  processThrottleLever();
+  processHyperDriveTemperature();    // Determined by throttle position
 //  playRandomSounds();
 }
 
