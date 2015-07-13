@@ -21,7 +21,7 @@ void setup() {
   initializeSDcard();
   initializeRandomGenerator();
   displayMessageVFD("  System Ready");
-  playStarWarsThemeSong();
+//  playStarWarsThemeSong();
   Serial.print("Free Memory = ");  Serial.println(freeMemory());
 }
 
