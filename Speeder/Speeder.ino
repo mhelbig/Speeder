@@ -20,7 +20,7 @@ void setup() {
   initializeVaccuumFluorescentDisplay();
   initializeSDcard();
   initializeRandomGenerator();
-  displayMessageVFD("  System Ready");
+//  displayMessageVFD("  System Ready");
 //  playStarWarsThemeSong();
   Serial.print("Free Memory = ");  Serial.println(freeMemory());
 }

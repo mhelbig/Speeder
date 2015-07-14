@@ -2,7 +2,7 @@
 #define PULLUP true        //use the Arduino's internal pullup resistors for all the inputs.
 #define INVERT true        //high state = button not pressed for all inputs
 #define DEBOUNCE_MS 20     //debounce time = 20 mS for all inputs
-#define MINIMUM_REPAIR_TIME 300 // Amount of time (in seconds) that the hyperdrive needs to be dissasembled before it can be tested and reactivated
+#define MINIMUM_REPAIR_TIME 2000 // Amount of time (in mSec) that the hyperdrive needs to be dissasembled before it can be tested and reactivated
 
 // define the throttle parameters
 #define THROTTLE_INPUT            A0
@@ -17,10 +17,12 @@ typedef struct modes
 
 modes hyperDrive[]=
 {
-  {  0," System Ready   ","lt-spd.wav"},
+  {  0," Hyperdrive Off ","lt-spd.wav"},
   {300,"  LightSpeed    ","lt-spd.wav"},
   {600,"Ridiculous Speed","rd-spd.wav"},
-  {900,"Ludicrous Speed ","ld-spd.wav"}
+  {900,"Ludicrous Speed ","ld-spd.wav"},
+  {900," Hyperdrive Hot ","ld-spd.wav"},
+  {900," Fix Hyperdrive ","ld-spd.wav"}
 };
 
 // define and declare the hyperdrive repair compartment inputs:
@@ -32,102 +34,102 @@ Button hyperDriveTest(HYPERDRIVE_TEST, PULLUP, INVERT, DEBOUNCE_MS);
 #define HYPERDRIVE_WARNING_TEMPERATURE 5    // Time in seconds before hyperdrive overheats when in Ludicrous speed mode
 #define HYPERDRIVE_OVERHEAT_TEMPERATURE 10  // Time in seconds before hyperdrive overheats when in Ludicrous speed mode
 
-int throttlePositionWithHysteresis;
+int throttlePosition;
 int hyperDriveSpeed = 0;
+int previousHyperDriveSpeed = 1;  // deliberately setting it different than hyperDrive speed so it updates the display on startup
 int hyperDriveTemperature = 0;
 unsigned long oneSecondTimer = millis();
 
 void processHyperDrive(void)
 {
-  processHyperDriveSpeed();             //Convert analog readings into one of three hyperdrive speeds
-  processHyperDriveRepair();            //Too much ludicrous speed overheats hyperdrive, requiring repair
-
-
-// TODO:  Build a function that calls updates to display and sound file only when there is a change in the hyperdrive speed changes from one mode to another
-
-  if(millis() - oneSecondTimer > 1000)    //Only process these things once per second
-  {  
-    oneSecondTimer = millis();
-    displayMessageVFD(hyperDrive[hyperDriveSpeed].displayMessage);   //Show the current speed on the display
-    processHyperDriveTemperature();                                  //speed determines how hot the hyperdrive runs
-  }
-}
-
-void processHyperDriveSpeed(void)
-{
   int i;
-  int throttlePosition;
+  int rawThrottlePosition;
+  static bool hyperDriveHasBeenDisassembled = 0;
   
-  if (hyperDriveTemperature >= HYPERDRIVE_OVERHEAT_TEMPERATURE ) return;  // stop processing the throttle until the hyperdrive is fixed
-  throttlePosition = analogRead(THROTTLE_INPUT);
-  
-  if ( (throttlePosition > throttlePositionWithHysteresis + THROTTLE_HYSTERESIS) || 
-       (throttlePosition < throttlePositionWithHysteresis - THROTTLE_HYSTERESIS) )
+  if (hyperDriveTemperature < HYPERDRIVE_OVERHEAT_TEMPERATURE )      //Process the throttle if we're not overheating
   {
-    throttlePositionWithHysteresis = throttlePosition;
-  }
-
-  for(i=3; i>=0; i--)  //(sizeof(modes)/sizeof(modes[0]))
-  {
-    if(throttlePositionWithHysteresis>hyperDrive[i].throttleThreshold)
+    rawThrottlePosition = analogRead(THROTTLE_INPUT);
+    
+    if ( (rawThrottlePosition > throttlePosition + THROTTLE_HYSTERESIS) || 
+         (rawThrottlePosition < throttlePosition - THROTTLE_HYSTERESIS) )
     {
-      hyperDriveSpeed = i;
-      break;
+      throttlePosition = rawThrottlePosition;
+    }
+  
+    for(i=3; i>=0; i--)  //(sizeof(modes)/sizeof(modes[0]))
+    {
+      if(throttlePosition > hyperDrive[i].throttleThreshold)
+      {
+        hyperDriveSpeed = i;
+        break;
+      }
+    }
+    
+    if(previousHyperDriveSpeed != hyperDriveSpeed)
+    {
+      previousHyperDriveSpeed = hyperDriveSpeed;
+      updateHyperDriveDisplayAndSound(hyperDriveSpeed);
     }
   }
-//  Serial.print(throttlePosition); Serial.print(",");  Serial.print(throttlePositionWithHysteresis);  Serial.print(",");  Serial.println(hyperDriveSpeed);
-}
+  else  // the hyperdrive is overheated and needs to be repaired by the jedi
+  {
+    //Read all the hyperdrive compartment inputs (this needs to be called often)
+    hyperDriveOK.read();
+    hyperDriveTest.read();
+      
+    if (hyperDriveOK.releasedFor(MINIMUM_REPAIR_TIME))
+    {
+      hyperDriveHasBeenDisassembled = 1;
+    }
+    
+    if (hyperDriveHasBeenDisassembled && hyperDriveOK.isPressed() && hyperDriveTest.wasPressed())
+    {
+      hyperDriveTemperature = 0;
+      hyperDriveHasBeenDisassembled = 0;
+      previousHyperDriveSpeed=10;  //force an update to the current throttle setting
+    }
+  }
 
-void processHyperDriveTemperature(void)
-{
-  // Process the hyperdrive speed, temperature, and check for overheating
-  
-//  Serial.print("hyperDriveTemperature = ");
-//  Serial.println(hyperDriveTemperature);
-
-  switch (hyperDriveSpeed)
+  if(millis() - oneSecondTimer > 1000)    //Process the hyperdrive temperature and check for overheating
   {  
-  case 0:
-    hyperDriveTemperature = 0;  // this particular spaceship's hyperdrive cools off instantly when shut down
-    break;
-  case 1:
-    if (hyperDriveTemperature > 0) hyperDriveTemperature--;  // the hyperdrive cools when in LightSpeed mode
-    break;
-  case 2:
-    break;
-  case 3:
-    if (hyperDriveTemperature < HYPERDRIVE_OVERHEAT_TEMPERATURE) hyperDriveTemperature++;  // the hyperdrive heats up when in Ludicrous Speed mode
-   
+    oneSecondTimer = millis();
+
+    Serial.println(hyperDriveTemperature);
+    switch (hyperDriveSpeed)
+    {  
+    case 0:
+      hyperDriveTemperature = 0;  // this particular spaceship's hyperdrive cools off instantly when shut down
+      break;
+    case 1:
+      if (hyperDriveTemperature > 0) hyperDriveTemperature--;  // the hyperdrive cools when in LightSpeed mode
+      break;
+    case 2:
+      break;
+    case 3:
+      if(hyperDriveTemperature < HYPERDRIVE_OVERHEAT_TEMPERATURE) hyperDriveTemperature++;  // the hyperdrive heats up when in Ludicrous Speed mode
+      break;
+    }
+    
     if (hyperDriveTemperature >= HYPERDRIVE_OVERHEAT_TEMPERATURE )
     {
-      //    playWaveFile("OVERHEAT.wav",3);
-      displayMessageVFD(" Drive Overheat");
-      break;
+      updateHyperDriveDisplayAndSound(5);
     }
     else if (hyperDriveTemperature > HYPERDRIVE_WARNING_TEMPERATURE )
     {
-      //    playWaveFile("HYPERDRIVEWARNING.wav",3);
-      displayMessageVFD("  Drive Warning");
+      updateHyperDriveDisplayAndSound(4);
     }
-    break;
   }
 }
 
-void processHyperDriveRepair(void)
+void updateHyperDriveDisplayAndSound(int setting)
 {
-  static bool hyperDriveHasBeenDisassembled = 0;
- 
-  //Read all the hyperdrive compartment inputs (this needs to be called often)
-  hyperDriveOK.read();
-  hyperDriveTest.read();
+  static int previousSetting=10;
   
-  if (hyperDriveOK.releasedFor(MINIMUM_REPAIR_TIME))
-    hyperDriveHasBeenDisassembled = 1;
-
-  if (hyperDriveHasBeenDisassembled && hyperDriveOK.isPressed() && hyperDriveTest.wasPressed())
+  if(previousSetting!=setting)
   {
-    hyperDriveTemperature = 0;
-    hyperDriveHasBeenDisassembled = 0;
+    previousSetting=setting;
+    displayMessageVFD(hyperDrive[setting].displayMessage);   //Show the current speed on the display
+  // also play associated WAV file here
   }
 }
 
