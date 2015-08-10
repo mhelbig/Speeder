@@ -23,6 +23,8 @@ void setup() {
 //  displayMessageVFD("  System Ready");
 //  playStarWarsThemeSong();
   Serial.print("Free Memory = ");  Serial.println(freeMemory());
+  
+  setVFDmessageActive(1, "super message");
 }
 
 //////////////////////////////////// LOOP
@@ -42,6 +44,7 @@ void loop()
   processR2D2();          // 'R' key
   processChewy();         // 'W' key
   processHyperDrive();    // Takes care of throttle, temperature, repair
+  processVFDmessages();   // Displays the highest priority message on the VFD screen
 //  playRandomSounds();
 }
 

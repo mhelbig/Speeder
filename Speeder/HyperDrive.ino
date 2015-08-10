@@ -128,7 +128,7 @@ void updateHyperDriveDisplayAndSound(int setting)
   if(previousSetting!=setting)
   {
     previousSetting=setting;
-    displayMessageVFD(hyperDrive[setting].displayMessage);   //Show the current speed on the display
+    setVFDmessageActive(2, hyperDrive[setting].displayMessage);   //Show the current speed on the display
   // also play associated WAV file here
   }
 }
@@ -139,21 +139,21 @@ void oldKeyboardHyperDriveFunction(void)
   {
     case '0':
       hyperDriveSpeed = '0';
-      displayMessageVFD("  System Ready");
+//  <need to insert new function call here!!!!!!!!!!!!!!!!!!!!      displayMessageVFD("  System Ready");
       break;
     case '1':
       hyperDriveSpeed = '1';
-      displayMessageVFD("  Light Speed");
+//  <need to insert new function call here!!!!!!!!!!!!!!!!!!!!      displayMessageVFD("  Light Speed");
 //    playWaveFile("LtSpeed.wav",3);
       break;
     case '2':
       hyperDriveSpeed = '2';
-      displayMessageVFD("Ridiculous Speed");
+//  <need to insert new function call here!!!!!!!!!!!!!!!!!!!!      displayMessageVFD("Ridiculous Speed");
 //    playWaveFile("RdSpeed.wav",3);
       break;
     case '3':
       hyperDriveSpeed = '3';
-      displayMessageVFD("Ludicrous Speed");
+//  <need to insert new function call here!!!!!!!!!!!!!!!!!!!!      displayMessageVFD("Ludicrous Speed");
 //    playWaveFile("LdSpeed.wav",3);
       break;
   }
