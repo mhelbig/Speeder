@@ -1,3 +1,5 @@
+// these functions use the button library to handle debouncing, edge detection, and hold time procesing of the digital inputs.
+//
 // define the passenger button operating parameters
 #define PULLUP true        //use the Arduino's internal pullup resistors for all the inputs.
 #define INVERT true        //high state = button not pressed for all inputs
@@ -23,6 +25,7 @@ Button passengerWeapon6(BUTTON_PASSENGER_WEAPON_6, PULLUP, INVERT, DEBOUNCE_MS);
 
 //define and declare the CB Mic Key input:
 #define BUTTON_CB_MIC_KEY           9
+#define CB_MINIMUM_TALK_TIME        3000  //time in milliseconds
 Button cbMICkey(BUTTON_CB_MIC_KEY, PULLUP, INVERT, DEBOUNCE_MS);
 
 //define and declare the R2D2 motion sensor input:
@@ -103,7 +106,7 @@ char scanCBmicKey(void)
   //Read the buttons (this needs to be called often)
   cbMICkey.read();
   
-  if(cbMICkey.wasPressed())
+  if(cbMICkey.pressedFor(CB_MINIMUM_TALK_TIME))
     return('C');
 }
 
