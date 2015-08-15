@@ -25,6 +25,10 @@ Button passengerWeapon6(BUTTON_PASSENGER_WEAPON_6, PULLUP, INVERT, DEBOUNCE_MS);
 #define BUTTON_CB_MIC_KEY           9
 Button cbMICkey(BUTTON_CB_MIC_KEY, PULLUP, INVERT, DEBOUNCE_MS);
 
+//define and declare the R2D2 motion sensor input:
+#define SENSOR_MOTION_R2D2          35
+Button sensorMotionR2D2(SENSOR_MOTION_R2D2, PULLUP, INVERT, DEBOUNCE_MS);
+
 char input;
 
 char scanForUserInput(void)
@@ -38,7 +42,11 @@ char scanForUserInput(void)
   if (input) return(input);
   
 // Then look for input from the CB mic:
-  scanCBmicKey();
+  input = scanCBmicKey();
+  if (input) return(input);
+  
+// Then look for input from R2D2's motion sensor:
+  input = scanR2D2motionSensor();
   if (input) return(input);
 
 // Then look for input from the passenger buttons
@@ -98,3 +106,13 @@ char scanCBmicKey(void)
   if(cbMICkey.wasPressed())
     return('C');
 }
+
+char scanR2D2motionSensor(void)
+{
+  //Read the buttons (this needs to be called often)
+  sensorMotionR2D2.read();
+  
+  if(sensorMotionR2D2.wasPressed())
+    return('R');
+}
+  
