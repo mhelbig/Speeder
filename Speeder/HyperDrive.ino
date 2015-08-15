@@ -17,7 +17,7 @@ typedef struct modes
 
 modes hyperDrive[]=
 {
-  {  0," Hyperdrive Off ","lt-spd.wav"},
+  {0,  "null"            ,"null.wav"},   //Nothing gets displayed or played when the throttle is all the way down
   {300,"  LightSpeed    ","lt-spd.wav"},
   {600,"Ridiculous Speed","rd-spd.wav"},
   {900,"Ludicrous Speed ","ld-spd.wav"},
@@ -94,6 +94,7 @@ void processHyperDrive(void)
   {  
     oneSecondTimer = millis();
 
+    Serial.print("hyperDriveTemperature = ");
     Serial.println(hyperDriveTemperature);
     switch (hyperDriveSpeed)
     {  
@@ -128,7 +129,14 @@ void updateHyperDriveDisplayAndSound(int setting)
   if(previousSetting!=setting)
   {
     previousSetting=setting;
-    setVFDmessageActive(2, hyperDrive[setting].displayMessage);   //Show the current speed on the display
+    if(setting > 0)
+    {
+      setVFDmessageActive(1, hyperDrive[setting].displayMessage);   //Show the current speed on the display
+    }
+    else
+    {
+      setVFDmessageInactive(1);
+    }
   // also play associated WAV file here
   }
 }

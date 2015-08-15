@@ -14,6 +14,21 @@ boolean waveFileIsPlaying(void)
   return(wave.isplaying);
 }
 
+boolean waveFileJustFinishedPlaying(void)
+{
+  static bool lastPlayState = 0;
+  if (wave.isplaying == 0 && lastPlayState == 1)
+  {
+    lastPlayState=0;
+    return(1);
+  }
+  else
+  {
+    lastPlayState = wave.isplaying;
+    return(0);
+  }
+}
+
 boolean playWaveFile(char *waveFile, int priority)
 {
   static int currentPlayPriority = 0;

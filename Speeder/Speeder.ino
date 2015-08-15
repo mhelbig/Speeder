@@ -20,11 +20,10 @@ void setup() {
   initializeVaccuumFluorescentDisplay();
   initializeSDcard();
   initializeRandomGenerator();
-//  displayMessageVFD("  System Ready");
 //  playStarWarsThemeSong();
   Serial.print("Free Memory = ");  Serial.println(freeMemory());
   
-  setVFDmessageActive(1, "super message");
+  setVFDmessageActive(2, "  System Ready");  // default message displayed if nothing else is going on
 }
 
 //////////////////////////////////// LOOP
@@ -33,10 +32,11 @@ void loop()
   userInput = scanForUserInput(); //readUserConsole();
   
   processActionSounds();
-  if (!waveFileIsPlaying())
+  if (waveFileJustFinishedPlaying())
   {
     SetVibratorMotorLeft(0);
     SetVibratorMotorRight(0);
+    setVFDmessageInactive(0);
   }
   runCBsequence();        // 'C' key
   processGoodGuys();      // 'G' key
