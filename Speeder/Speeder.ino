@@ -32,18 +32,18 @@ void loop()
   userInput = scanForUserInput(); //readUserConsole();
   
   processActionSounds();
-  if (waveFileJustFinishedPlaying())
-  {
-    SetVibratorMotorLeft(0);
-    SetVibratorMotorRight(0);
-    setVFDmessageInactive(0);
-  }
   runCBsequence();        // 'C' key
   processGoodGuys();      // 'G' key
   processBadGuys();       // 'B' key
   processR2D2();          // 'R' key
   processChewy();         // 'W' key
   processHyperDrive();    // Takes care of throttle, temperature, repair
+  if (waveFileJustFinishedPlaying())
+  {
+    SetVibratorMotorLeft(0);
+    SetVibratorMotorRight(0);
+    setVFDmessageInactive(0);
+  }
   processVFDmessages();   // Displays the highest priority message on the VFD screen
 //  playRandomSounds();
 }

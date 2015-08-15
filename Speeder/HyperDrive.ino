@@ -94,12 +94,11 @@ void processHyperDrive(void)
   {  
     oneSecondTimer = millis();
 
-    Serial.print("hyperDriveTemperature = ");
-    Serial.println(hyperDriveTemperature);
+//    Serial.print("hyperDriveTemperature = ");  Serial.println(hyperDriveTemperature);
     switch (hyperDriveSpeed)
     {  
     case 0:
-      hyperDriveTemperature = 0;  // this particular spaceship's hyperdrive cools off instantly when shut down
+      hyperDriveTemperature = 0;  // this particular spaceship's hyperdrive cools off instantly when shut down. Curious, huh?
       break;
     case 1:
       if (hyperDriveTemperature > 0) hyperDriveTemperature--;  // the hyperdrive cools when in LightSpeed mode

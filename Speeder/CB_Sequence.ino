@@ -16,8 +16,10 @@ void runCBsequence(void)
 
   if (userInput == 'C')
   {
+
     if(playWaveFile(CBsound[index].fileName,CBsound[index].playPriority))
     {
+      setVFDmessageActive(0, "Incoming Message");
       index ++;
       if (index >= numberOfSounds) index = 0;
     }
