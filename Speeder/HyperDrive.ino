@@ -69,6 +69,7 @@ void processHyperDrive(void)
     {
       previousHyperDriveSpeed = hyperDriveSpeed;
       updateHyperDriveDisplayAndSound(hyperDriveSpeed);
+      setThrusterColor(hyperDriveSpeed);
     }
   }
   else  // the hyperdrive is overheated and needs to be repaired by the jedi

@@ -23,7 +23,7 @@ void setup() {
   initializeSDcard();
   initializeRandomGenerator();
   initializeShiftBrite();
-  playStarWarsThemeSong();
+//  playStarWarsThemeSong();
   setVFDmessageActive(2, " All Systems Go");  // default message displayed if nothing else is going on
 }
 
@@ -45,7 +45,9 @@ void loop()
     SetVibratorMotorLeft(0);
     SetVibratorMotorRight(0);
     setVFDmessageInactive(0);
+    setCockpitColorWhite();
   }
-  processVFDmessages();   // Displays the highest priority message on the VFD screen
+  processVFDmessages();   // display the highest priority message on the VFD screen
+  processShiftBrite();    // update the shiftbrite LEDs
 }
 
