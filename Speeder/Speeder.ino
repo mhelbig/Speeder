@@ -17,13 +17,14 @@ struct wavePlaylist
 void setup() {
   Serial.begin(9600);
   Serial.println("Speeder Main System Control Module");
+  Serial.print("Free Memory = ");  Serial.println(freeMemory());
+  
   initializeVaccuumFluorescentDisplay();
   initializeSDcard();
   initializeRandomGenerator();
-//  playStarWarsThemeSong();
-  Serial.print("Free Memory = ");  Serial.println(freeMemory());
-  
-  setVFDmessageActive(2, "  System Ready");  // default message displayed if nothing else is going on
+  initializeShiftBrite();
+  playStarWarsThemeSong();
+  setVFDmessageActive(2, " All Systems Go");  // default message displayed if nothing else is going on
 }
 
 //////////////////////////////////// LOOP

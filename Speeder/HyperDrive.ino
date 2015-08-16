@@ -20,7 +20,7 @@ modes hyperDrive[]=
   {0,  "null"            ,"null.wav"},   //Nothing gets displayed or played when the throttle is all the way down
   {300,"  LightSpeed    ","lt-spd.wav"},
   {600,"Ridiculous Speed","rd-spd.wav"},
-  {900,"Ludicrous Speed ","ld-spd.wav"},
+  {900,"Ludicrous  Speed","ld-spd.wav"},
   {900," Hyperdrive Hot ","ld-spd.wav"},
   {900," Fix Hyperdrive ","ld-spd.wav"}
 };

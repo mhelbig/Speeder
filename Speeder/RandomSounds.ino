@@ -64,8 +64,18 @@ void initializeRandomGenerator(void)
   Serial.println("RND gen init.");
 }
 
+#define DELAY_BETWEEN_THEME_SONG_MESSAGES 8000
+
 void playStarWarsThemeSong(void)
 {
   playWaveFile("SWTM001.wav",0);  //start things off with the Star Wars theme song
+  directDisplayVFDmessage(" May the Force");
+  delay(DELAY_BETWEEN_THEME_SONG_MESSAGES);
+  
+  directDisplayVFDmessage("  be with you");
+  delay(DELAY_BETWEEN_THEME_SONG_MESSAGES);
+  
+  directDisplayVFDmessage("Finn and Shamus");
+  delay(DELAY_BETWEEN_THEME_SONG_MESSAGES);
 }
 

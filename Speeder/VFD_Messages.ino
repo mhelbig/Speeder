@@ -73,3 +73,10 @@ void setVFDmessageInactive(unsigned int priority)            // make one of the 
     VFD[priority].displayMessage[0]=0;
   }
 }
+
+void directDisplayVFDmessage(char *message)
+{
+  vfd.clear();
+  vfd.println(message);
+}
+

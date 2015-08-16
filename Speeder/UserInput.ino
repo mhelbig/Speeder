@@ -44,17 +44,17 @@ char scanForUserInput(void)
   input = scanSteeringWheel();
   if (input) return(input);
   
+// Then look for input from the passenger buttons
+  input = scanPassengerButtons();
+  if (input) return (input);
+
 // Then look for input from the CB mic:
   input = scanCBmicKey();
   if (input) return(input);
   
-// Then look for input from R2D2's motion sensor:
+// Maybe the kids aren't in the cockpit, look for input from R2D2's motion sensor:
   input = scanR2D2motionSensor();
   if (input) return(input);
-
-// Then look for input from the passenger buttons
-  input = scanPassengerButtons();
-  if (input) return (input);
 
 // Return a null if none of the user inputs had any action
   else return(0);
