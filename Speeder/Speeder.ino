@@ -39,6 +39,7 @@ void loop()
   processR2D2();          // 'R' key
   processChewy();         // 'W' key
   processHyperDrive();    // Takes care of throttle, temperature, repair
+  playRandomSounds();     // Random sounds play throughout
   if (waveFileJustFinishedPlaying())
   {
     SetVibratorMotorLeft(0);
@@ -46,6 +47,5 @@ void loop()
     setVFDmessageInactive(0);
   }
   processVFDmessages();   // Displays the highest priority message on the VFD screen
-//  playRandomSounds();
 }
 
