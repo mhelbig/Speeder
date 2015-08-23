@@ -74,7 +74,7 @@ void setVFDmessageInactive(unsigned int priority)            // make one of the 
   }
 }
 
-void directDisplayVFDmessage(char *message)
+void directDisplayVFDmessage(char *message)  // Just puts a message on the display without all the complex overhead stuff
 {
   vfd.clear();
   vfd.println(message);

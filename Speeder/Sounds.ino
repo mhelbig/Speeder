@@ -84,7 +84,7 @@ void processGoodGuys(void)
     if(playWaveFile(goodGuySound[index].fileName,goodGuySound[index].playPriority))
     {
       setVFDmessageActive(0, "    Good Guy");
-      setCockpitColorGreen();
+      setCockpitColorGoodGuy();
       index ++;
       if (index >= numberOfSounds) index = 0;
     }
@@ -103,7 +103,7 @@ void processBadGuys(void)
     if(playWaveFile(badGuySound[index].fileName,badGuySound[index].playPriority))
     {
       setVFDmessageActive(0, "     Bad Guy");
-      setCockpitColorRed();
+      setCockpitColorBadGuy();
       index ++;
       if (index >= numberOfSounds) index = 0;
     }

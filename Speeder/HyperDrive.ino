@@ -114,10 +114,14 @@ void processHyperDrive(void)
     if (hyperDriveTemperature >= HYPERDRIVE_OVERHEAT_TEMPERATURE )
     {
       updateHyperDriveDisplayAndSound(5);
+      setThrusterColor(5);
+
     }
     else if (hyperDriveTemperature > HYPERDRIVE_WARNING_TEMPERATURE )
     {
       updateHyperDriveDisplayAndSound(4);
+      setThrusterColor(4);
+
     }
   }
 }

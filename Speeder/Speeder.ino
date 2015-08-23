@@ -42,10 +42,10 @@ void loop()
   playRandomSounds();     // Random sounds play throughout
   if (waveFileJustFinishedPlaying())
   {
+    setCockpitColorNormal();
+    setVFDmessageInactive(0);
     SetVibratorMotorLeft(0);
     SetVibratorMotorRight(0);
-    setVFDmessageInactive(0);
-    setCockpitColorWhite();
   }
   processVFDmessages();   // display the highest priority message on the VFD screen
   processShiftBrite();    // update the shiftbrite LEDs
