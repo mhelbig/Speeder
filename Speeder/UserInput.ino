@@ -1,11 +1,10 @@
 // these functions use the button library to handle debouncing, edge detection, and hold time procesing of the digital inputs.
 //
-// define the passenger button operating parameters
-#define PULLUP true        //use the Arduino's internal pullup resistors for all the inputs.
-#define INVERT true        //high state = button not pressed for all inputs
 #define DEBOUNCE_MS 20     //debounce time = 20 mS for all inputs
 
 // define and declare the passenger button inputs:
+#define PASSENGER_PULLUP true            //use the Arduino's internal pullup resistors
+#define PASSENGER_INVERT true            //high state = button not pressed
 #define BUTTON_PASSENGER_GOOD_GUY   A8
 #define BUTTON_PASSENGER_BAD_GUY    A9
 #define BUTTON_PASSENGER_WEAPON_1   A10
@@ -14,23 +13,27 @@
 #define BUTTON_PASSENGER_WEAPON_4   A13
 #define BUTTON_PASSENGER_WEAPON_5   A14
 #define BUTTON_PASSENGER_WEAPON_6   A15
-Button passengerGoodGuy(BUTTON_PASSENGER_GOOD_GUY, PULLUP, INVERT, DEBOUNCE_MS);
-Button passengerBadGuy(BUTTON_PASSENGER_BAD_GUY, PULLUP, INVERT, DEBOUNCE_MS);
-Button passengerWeapon1(BUTTON_PASSENGER_WEAPON_1, PULLUP, INVERT, DEBOUNCE_MS);
-Button passengerWeapon2(BUTTON_PASSENGER_WEAPON_2, PULLUP, INVERT, DEBOUNCE_MS);
-Button passengerWeapon3(BUTTON_PASSENGER_WEAPON_3, PULLUP, INVERT, DEBOUNCE_MS);
-Button passengerWeapon4(BUTTON_PASSENGER_WEAPON_4, PULLUP, INVERT, DEBOUNCE_MS);
-Button passengerWeapon5(BUTTON_PASSENGER_WEAPON_5, PULLUP, INVERT, DEBOUNCE_MS);
-Button passengerWeapon6(BUTTON_PASSENGER_WEAPON_6, PULLUP, INVERT, DEBOUNCE_MS);
+Button passengerGoodGuy(BUTTON_PASSENGER_GOOD_GUY, PASSENGER_PULLUP, PASSENGER_INVERT, DEBOUNCE_MS);
+Button passengerBadGuy(BUTTON_PASSENGER_BAD_GUY,   PASSENGER_PULLUP, PASSENGER_INVERT, DEBOUNCE_MS);
+Button passengerWeapon1(BUTTON_PASSENGER_WEAPON_1, PASSENGER_PULLUP, PASSENGER_INVERT, DEBOUNCE_MS);
+Button passengerWeapon2(BUTTON_PASSENGER_WEAPON_2, PASSENGER_PULLUP, PASSENGER_INVERT, DEBOUNCE_MS);
+Button passengerWeapon3(BUTTON_PASSENGER_WEAPON_3, PASSENGER_PULLUP, PASSENGER_INVERT, DEBOUNCE_MS);
+Button passengerWeapon4(BUTTON_PASSENGER_WEAPON_4, PASSENGER_PULLUP, PASSENGER_INVERT, DEBOUNCE_MS);
+Button passengerWeapon5(BUTTON_PASSENGER_WEAPON_5, PASSENGER_PULLUP, PASSENGER_INVERT, DEBOUNCE_MS);
+Button passengerWeapon6(BUTTON_PASSENGER_WEAPON_6, PASSENGER_PULLUP, PASSENGER_INVERT, DEBOUNCE_MS);
 
 //define and declare the CB Mic Key input:
+#define CB_MIC_PULLUP true           //use the Arduino's internal pullup resistors
+#define CB_MIC_INVERT true           //high state = button not pressed
 #define BUTTON_CB_MIC_KEY           9
 #define CB_MINIMUM_TALK_TIME        3000  //time in milliseconds
-Button cbMICkey(BUTTON_CB_MIC_KEY, PULLUP, INVERT, DEBOUNCE_MS);
+Button cbMICkey(BUTTON_CB_MIC_KEY, CB_MIC_PULLUP, CB_MIC_INVERT, DEBOUNCE_MS);
 
 //define and declare the R2D2 motion sensor input:
+#define R2D2_SENSOR_MOTION_PULLUP false           //do not use the Arduino's internal pullup resistors
+#define R2D2_SENSOR_MOTION_INVERT false           //high state = motion detected
 #define SENSOR_MOTION_R2D2          35
-Button sensorMotionR2D2(SENSOR_MOTION_R2D2, PULLUP, INVERT, DEBOUNCE_MS);
+Button sensorMotionR2D2(SENSOR_MOTION_R2D2, R2D2_SENSOR_MOTION_PULLUP, R2D2_SENSOR_MOTION_INVERT, DEBOUNCE_MS);
 
 char input;
 
