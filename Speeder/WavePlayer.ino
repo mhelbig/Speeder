@@ -9,27 +9,35 @@ FatReader root;   // This holds the information for the volumes root directory
 FatReader file;   // This object represent the WAV file 
 WaveHC wave;      // This is the only wave (audio) object, since we will only play one at a time
 
+char currentWaveFileIdentifier = 0;
+
 boolean waveFileIsPlaying(void)
 {
   return(wave.isplaying);
 }
 
-boolean waveFileJustFinishedPlaying(void)
+boolean waveFileJustFinishedPlaying(char identifier)
 {
   static bool lastPlayState = 0;
-  if (wave.isplaying == 0 && lastPlayState == 1)
+  
+  if (identifier == currentWaveFileIdentifier)
   {
-    lastPlayState=0;
-    return(1);
+    if (wave.isplaying == 0 && lastPlayState == 1)
+    {
+      Serial.print("waveFileJustFinishedPlaying = "); Serial.println(currentWaveFileIdentifier);
+      lastPlayState=0;
+      currentWaveFileIdentifier = 0;
+      return(1);
+    }
+    else
+    {
+      lastPlayState = wave.isplaying;
+    }
   }
-  else
-  {
-    lastPlayState = wave.isplaying;
-    return(0);
-  }
+  return(0);
 }
 
-boolean playWaveFile(char *waveFile, int priority)
+boolean playWaveFile(char *waveFile, int priority, char identifier)
 {
   static int currentPlayPriority = 0;
   
@@ -48,6 +56,7 @@ boolean playWaveFile(char *waveFile, int priority)
   Serial.print("Playing: ");
   Serial.println(waveFile);
   currentPlayPriority = priority;
+  currentWaveFileIdentifier = identifier;    // record the wave file identifier so that we can see when they finish playing
   
   if (!file.open(root, waveFile)) error("open by name");  // create wave and start play
   if (!wave.create(file))error("wave.create");

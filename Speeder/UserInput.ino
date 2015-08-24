@@ -39,8 +39,9 @@ char input;
 
 char scanForUserInput(void)
 {
-  // The order of these functions determines thier priority, as the function returns as soon as a valid input is founds
-  // Check the console for input.  This will only be used for testing and debugging.
+// NOTE: The order of these functions determines thier priority, as the function returns as soon as a valid input is found
+  
+// Check the serial console for input.  This will only be used for testing and debugging.
   if (Serial.available() > 0) return(toupper(Serial.read()));
 
 // Then look for input from the steering wheel
