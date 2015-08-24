@@ -16,7 +16,19 @@ boolean waveFileIsPlaying(void)
   return(wave.isplaying);
 }
 
-boolean waveFileJustFinishedPlaying(char identifier)
+boolean myWaveFileIsPlaying(char identifier)
+{
+  if(identifier == currentWaveFileIdentifier)
+  {
+    return(wave.isplaying);
+  }
+  else
+  {
+  return(0);
+  }
+}
+
+boolean myWaveFileJustFinishedPlaying(char identifier)
 {
   static bool lastPlayState = 0;
   

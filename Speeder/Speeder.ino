@@ -5,7 +5,7 @@
 #include <Button.h>
 #include <M66004Vfd.h> // VFD library.
 
-// functions to identifier character mappings:
+// map functions to identifier characters:
 #define CB_SEQ     'C'
 #define BAD_GUYS   'B'
 #define GOOD_GUYS  'G'
@@ -18,16 +18,6 @@
 #define NINE_MM    'N'
 #define STARTUP    'S'
 #define MOTORS_OFF 'M'
-
-// define some common RGB color values
-#define SB_OFF     0,    0,    0
-#define SB_WHT     1023, 1023, 1023
-#define SB_DIM     100,  100,  100
-#define SB_RED     1023, 0,    0
-#define SB_GRN     0,    1023, 0
-#define SB_BLU     0,    0,    1023
-#define SB_YEL     1023, 1023, 0
-#define SB_ORN     1023, 255,  0
 
 char userInput;
 
@@ -47,11 +37,6 @@ void setup() {
   initializeSDcard();
   initializeRandomGenerator();
   
-// Initialize the various shiftbrite color states before we turn them on
-  setCockpitColor(SB_DIM);
-  setThrusterColor(0);
-  setLaserCannonColor(SB_OFF);
-  // R2D2 goes here
   initializeShiftBrite();
   
 //  playStarWarsThemeSong();

@@ -11,6 +11,24 @@
 #define SB_COCKPIT       2
 #define SB_R2D2          0
 
+// define some common RGB color values
+#define SB_OFF     0,    0,    0
+#define SB_WHT     1023, 1023, 1023
+#define SB_DIM     100,  100,  100
+#define SB_RED     1023, 0,    0
+#define SB_GRN     0,    1023, 0
+#define SB_BLU     0,    0,    1023
+#define SB_YEL     1023, 1023, 0
+#define SB_ORN     1023, 255,  0
+
+// define the hyperdrive modes
+#define HD_OFF         0
+#define HD_LIGHTSPEED  1
+#define HD_RIDICULOUS  2
+#define HD_LUDICROUS   3
+#define HD_HOT         4
+#define HD_OVERHEATED  5
+
 unsigned long SB_CommandPacket;
 int LEDChannels[NUM_SHIFTBRITES][3] = {0};
 int SB_CommandMode;
@@ -37,27 +55,27 @@ void setThrusterColor(int thrusterMode)
 {
   switch (thrusterMode)
   {
-    case 0:  // hyperdrive off
+    case HD_OFF:
       setThrustersColor(SB_OFF);
       break;
     
-    case 1:  // WHITE - lightspeed
+    case HD_LIGHTSPEED:
       setThrustersColor(SB_WHT);
       break;
   
-    case 2:  // BLUE - ridiculous speed
+    case HD_RIDICULOUS:
       setThrustersColor(SB_BLU);
       break;
     
-    case 3:  // YELLOW - ludicrous speed
+    case HD_LUDICROUS:
       setThrustersColor(SB_YEL);
       break;
     
-    case 4:  // ORANGE - hyperdrive hot
+    case HD_HOT:
       setThrustersColor(SB_ORN);
       break;
     
-    case 5:  // RED - hyperdrive overheated, needing repair
+    case HD_OVERHEATED:
       setThrustersColor(SB_RED);
       break;
   }
@@ -155,4 +173,10 @@ void initializeShiftBrite(void)
   {
     SB_SendPacket();
   }
-}
+
+  // Initialize the various shiftbrite color states before we turn them on
+  setCockpitColor(SB_DIM);
+  setThrusterColor(HD_OFF);
+  setLaserCannonColor(SB_OFF);
+  setR2D2Color(SB_OFF);
+ }

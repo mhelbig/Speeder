@@ -101,7 +101,7 @@ void processGoodGuys(void)
     }
   }
   
-  if(waveFileJustFinishedPlaying(GOOD_GUYS))
+  if(myWaveFileJustFinishedPlaying(GOOD_GUYS))
   {
     setCockpitColor(SB_DIM);
     setVFDmessageInactive(0);
@@ -136,7 +136,7 @@ void processBadGuys(void)
     }
   }
   
-  if(waveFileJustFinishedPlaying(BAD_GUYS))
+  if(myWaveFileJustFinishedPlaying(BAD_GUYS))
   {
     setCockpitColor(SB_DIM);
     setVFDmessageInactive(0);
@@ -153,10 +153,13 @@ wavePlaylist r2d2Sound[]=
   {"R2D2005.wav",3}
 };
 
+#define R2D2_LIGHT_CYCLE_TIME 250
+
 void processR2D2(void)
 {
   static long waitTimer;
   static char index = 0;
+  static char color = 0;
   
   int numberOfSounds = sizeof(r2d2Sound)/sizeof(r2d2Sound[0]);
 
@@ -164,14 +167,34 @@ void processR2D2(void)
   {  
     if(playWaveFile(r2d2Sound[index].fileName,r2d2Sound[index].playPriority,userInput))
     {
-      setR2D2Color(SB_RED);  // for now, later we'll add code to cycle thru the colors
       index ++;
       if (index >= numberOfSounds) index = 0;
+      waitTimer = millis() + R2D2_LIGHT_CYCLE_TIME;
+      color = 0;
     }
   }
-  if(waveFileJustFinishedPlaying(R2D2))
+  
+  else if(myWaveFileJustFinishedPlaying(R2D2))
   {
-    setR2D2Color(SB_BLU);
+    setR2D2Color(SB_OFF);
+    return;
+  }
+
+  else if(myWaveFileIsPlaying(R2D2))
+  {
+    if (millis() < waitTimer) return;
+    
+    waitTimer = millis() + R2D2_LIGHT_CYCLE_TIME;
+    if (color == 0)
+    {
+      setR2D2Color(SB_RED);
+      color = 1;
+    }
+    else
+    {
+      setR2D2Color(SB_BLU);
+      color = 0;
+    }
   }
 }
 
@@ -185,7 +208,7 @@ void processLaserCannon(void)
     SetVibratorMotorLeft(127);
     setLaserCannonColor(SB_ORN);
   }
-  if(waveFileJustFinishedPlaying(LASER))
+  if(myWaveFileJustFinishedPlaying(LASER))
   {
     setVFDmessageInactive(0);
     SetVibratorMotorLeft(0);
