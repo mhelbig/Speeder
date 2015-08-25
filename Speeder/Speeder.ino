@@ -18,6 +18,7 @@
 #define NINE_MM    'N'
 #define STARTUP    'S'
 #define MOTORS_OFF 'M'
+#define FIX_HD     'F'
 
 char userInput;
 
@@ -29,7 +30,7 @@ struct wavePlaylist
 
 //////////////////////////////////// SETUP
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(56700);
   Serial.println("Speeder Main System Control Module");
   Serial.print("Free Memory = ");  Serial.println(freeMemory());
   

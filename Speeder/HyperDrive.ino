@@ -7,6 +7,7 @@
 // define the throttle parameters
 #define THROTTLE_INPUT            A0
 #define THROTTLE_HYSTERESIS       50
+#define THROTTLE_DEBOUNCE_COUNTS  5 // used for "debouncing" the throttle input, we wait for the input to change less than this amount before we consider it stable
 
 typedef struct modes
 {
@@ -18,11 +19,11 @@ typedef struct modes
 modes hyperDrive[]=
 {
   {0,  "null"            ,"null.wav"},   //Nothing gets displayed or played when the throttle is all the way down
-  {300,"  LightSpeed    ","lt-spd.wav"},
-  {600,"Ridiculous Speed","rd-spd.wav"},
-  {900,"Ludicrous  Speed","ld-spd.wav"},
-  {900," Hyperdrive Hot ","ld-spd.wav"},
-  {900," Fix Hyperdrive ","ld-spd.wav"}
+  {300,"  LightSpeed    ","PR01.wav"},
+  {600,"Ridiculous Speed","PR02.wav"},
+  {900,"Ludicrous  Speed","PRSTO.wav"},
+  {900," Hyperdrive Hot ","EXPRL.wav"},
+  {900," Fix Hyperdrive ","ENRSF1.wav"}
 };
 
 // define and declare the hyperdrive repair compartment inputs:
@@ -31,48 +32,27 @@ modes hyperDrive[]=
 Button hyperDriveOK(HYPERDRIVE_OK, PULLUP, INVERT, DEBOUNCE_MS);
 Button hyperDriveTest(HYPERDRIVE_TEST, PULLUP, INVERT, DEBOUNCE_MS);
 
-#define HYPERDRIVE_WARNING_TEMPERATURE 5    // Time in seconds before hyperdrive overheats when in Ludicrous speed mode
-#define HYPERDRIVE_OVERHEAT_TEMPERATURE 10  // Time in seconds before hyperdrive overheats when in Ludicrous speed mode
-
-int throttlePosition;
-int hyperDriveSpeed = 0;
-int previousHyperDriveSpeed = 1;  // deliberately setting it different than hyperDrive speed so it updates the display on startup
-int hyperDriveTemperature = 0;
-unsigned long oneSecondTimer = millis();
+#define HYPERDRIVE_WARNING_TEMPERATURE 10   // Time in seconds before hyperdrive gets hot when in Ludicrous speed mode
+#define HYPERDRIVE_OVERHEAT_TEMPERATURE 20  // Time in seconds before hyperdrive is damaged when in Ludicrous speed mode
 
 void processHyperDrive(void)
 {
-  int i;
-  int rawThrottlePosition;
   static bool hyperDriveHasBeenDisassembled = 0;
+  static unsigned long oneSecondTimer = millis();
+
+  int rawThrottlePosition;                // raw analog reading
+  static int previousRawThrottlePosition; // used for tracking position change and "debouncing" the analog input
+  static int throttlePosition;            // conditioned analog reading from the throttle potentiometer
+
+  static int previousHyperDriveMode = 1;  // deliberately setting it different than hyperDrive speed so it updates the display on startup
+  int hyperDriveSpeed = 0;                // discrete hyperdrive speeds converted from analog values
+  static int hyperDriveMode = 0;          // processed hyperdrive mode (speeds + overheating)
+  static int hyperDriveTemperature = 0;   // effective temperature of the hyperdrive, caused by running it in ludicrous speed
+
   
-  if (hyperDriveTemperature < HYPERDRIVE_OVERHEAT_TEMPERATURE )      //Process the throttle if we're not overheating
-  {
-    rawThrottlePosition = analogRead(THROTTLE_INPUT);
-    
-    if ( (rawThrottlePosition > throttlePosition + THROTTLE_HYSTERESIS) || 
-         (rawThrottlePosition < throttlePosition - THROTTLE_HYSTERESIS) )
-    {
-      throttlePosition = rawThrottlePosition;
-    }
+  int i;
   
-    for(i=3; i>=0; i--)  //(sizeof(modes)/sizeof(modes[0]))
-    {
-      if(throttlePosition > hyperDrive[i].throttleThreshold)
-      {
-        hyperDriveSpeed = i;
-        break;
-      }
-    }
-    
-    if(previousHyperDriveSpeed != hyperDriveSpeed)
-    {
-      previousHyperDriveSpeed = hyperDriveSpeed;
-      updateHyperDriveDisplayAndSound(hyperDriveSpeed);
-      setThrusterColor(hyperDriveSpeed);
-    }
-  }
-  else  // the hyperdrive is overheated and needs to be repaired by the jedi
+  if (hyperDriveTemperature >= HYPERDRIVE_OVERHEAT_TEMPERATURE )      //the hyperdrive is overheated and needs to be repaired by the jedi before it works again
   {
     //Read all the hyperdrive compartment inputs (this needs to be called often)
     hyperDriveOK.read();
@@ -83,11 +63,35 @@ void processHyperDrive(void)
       hyperDriveHasBeenDisassembled = 1;
     }
     
-    if (hyperDriveHasBeenDisassembled && hyperDriveOK.isPressed() && hyperDriveTest.wasPressed())
+    if ( (hyperDriveHasBeenDisassembled && hyperDriveOK.isPressed() && hyperDriveTest.wasPressed()) || userInput == FIX_HD)
     {
       hyperDriveTemperature = 0;
       hyperDriveHasBeenDisassembled = 0;
-      previousHyperDriveSpeed=10;  //force an update to the current throttle setting
+    }
+    return;
+  }
+  
+  else  // Process the throttle if we're not overheating
+  {
+    rawThrottlePosition = analogRead(THROTTLE_INPUT);
+    
+    if ( (rawThrottlePosition < previousRawThrottlePosition + THROTTLE_DEBOUNCE_COUNTS) ||   // wait until it stops changing
+         (rawThrottlePosition > previousRawThrottlePosition - THROTTLE_DEBOUNCE_COUNTS) )
+    {
+      if ( (rawThrottlePosition > throttlePosition + THROTTLE_HYSTERESIS) ||                 // then see if it changed enough to convert it to a hyperdrive speed
+           (rawThrottlePosition < throttlePosition - THROTTLE_HYSTERESIS) )
+      {
+        throttlePosition = rawThrottlePosition;
+      }
+    
+      for(i=3; i>=0; i--)  //(sizeof(modes)/sizeof(modes[0]))
+      {
+        if(throttlePosition > hyperDrive[i].throttleThreshold)
+        {
+          hyperDriveSpeed = i;
+          break;
+        }
+      }
     }
   }
 
@@ -99,12 +103,9 @@ void processHyperDrive(void)
     switch (hyperDriveSpeed)
     {  
     case 0:
-      hyperDriveTemperature = 0;  // this particular spaceship's hyperdrive cools off instantly when shut down. Curious, huh?
-      break;
     case 1:
-      if (hyperDriveTemperature > 0) hyperDriveTemperature--;  // the hyperdrive cools when in LightSpeed mode
-      break;
     case 2:
+      hyperDriveTemperature = 0;  // this particular spaceship's hyperdrive cools off instantly when running below ludicrous speed
       break;
     case 3:
       if(hyperDriveTemperature < HYPERDRIVE_OVERHEAT_TEMPERATURE) hyperDriveTemperature++;  // the hyperdrive heats up when in Ludicrous Speed mode
@@ -113,16 +114,23 @@ void processHyperDrive(void)
     
     if (hyperDriveTemperature >= HYPERDRIVE_OVERHEAT_TEMPERATURE )
     {
-      updateHyperDriveDisplayAndSound(5);
-      setThrusterColor(5);
-
+      hyperDriveMode = 5;
     }
     else if (hyperDriveTemperature > HYPERDRIVE_WARNING_TEMPERATURE )
     {
-      updateHyperDriveDisplayAndSound(4);
-      setThrusterColor(4);
-
+      hyperDriveMode = 4;
     }
+    else
+    {
+      hyperDriveMode = hyperDriveSpeed;
+    }
+  }
+
+  if(previousHyperDriveMode != hyperDriveMode)                                        // update the display and sound if it changed from last time
+  {
+    previousHyperDriveMode = hyperDriveMode;
+    updateHyperDriveDisplayAndSound(hyperDriveMode);
+    setThrusterColor(hyperDriveMode);
   }
 }
 
@@ -141,32 +149,9 @@ void updateHyperDriveDisplayAndSound(int setting)
     {
       setVFDmessageInactive(1);
     }
-  // also play associated WAV file here
-  }
-}
-
-void oldKeyboardHyperDriveFunction(void)
-{
-    switch (userInput)  // This will be replaced by a routine that reads the A/D input and determines the speed from that
-  {
-    case '0':
-      hyperDriveSpeed = '0';
-//  <need to insert new function call here!!!!!!!!!!!!!!!!!!!!      displayMessageVFD("  System Ready");
-      break;
-    case '1':
-      hyperDriveSpeed = '1';
-//  <need to insert new function call here!!!!!!!!!!!!!!!!!!!!      displayMessageVFD("  Light Speed");
-//    playWaveFile("LtSpeed.wav",3);
-      break;
-    case '2':
-      hyperDriveSpeed = '2';
-//  <need to insert new function call here!!!!!!!!!!!!!!!!!!!!      displayMessageVFD("Ridiculous Speed");
-//    playWaveFile("RdSpeed.wav",3);
-      break;
-    case '3':
-      hyperDriveSpeed = '3';
-//  <need to insert new function call here!!!!!!!!!!!!!!!!!!!!      displayMessageVFD("Ludicrous Speed");
-//    playWaveFile("LdSpeed.wav",3);
-      break;
+    if (setting !=0)
+    {
+      playWaveFile(hyperDrive[setting].soundFile,4,0);
+    }
   }
 }

@@ -55,10 +55,10 @@ boolean playWaveFile(char *waveFile, int priority, char identifier)
   
   if (wave.isplaying)
   {
-    if(priority <= currentPlayPriority)
+    if(priority < currentPlayPriority)
     {
       Serial.print(waveFile);
-      Serial.println(" has equal or lower priority.  Ignoring.");
+      Serial.println(" has lower priority.  Ignoring.");
       return(false);
     }
     wave.stop();

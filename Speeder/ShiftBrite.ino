@@ -6,10 +6,10 @@
 #define NUM_SHIFTBRITES 3
 
 // define the shiftbrites in the serial chain, last device first
-#define SB_LASERCANNON   3
+#define SB_LASERCANNON   0
 #define SB_THRUSTERS     1
-#define SB_COCKPIT       2
-#define SB_R2D2          0
+#define SB_COCKPIT       3
+#define SB_R2D2          2
 
 // define some common RGB color values
 #define SB_OFF     0,    0,    0
@@ -103,11 +103,11 @@ void setR2D2Color(int r, int g, int b)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Laser cannon functions
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void setLaserCannonColor(int r, int g, int b)
+void setLaserCannonColorAndBrightness(int r, int g, int b, float brightness)
 {
-  LEDChannels[SB_LASERCANNON][0]=r;
-  LEDChannels[SB_LASERCANNON][1]=g;
-  LEDChannels[SB_LASERCANNON][2]=b;
+  LEDChannels[SB_LASERCANNON][0] = r * brightness;
+  LEDChannels[SB_LASERCANNON][1] = g * brightness;
+  LEDChannels[SB_LASERCANNON][2] = b * brightness;
   SB_changed = 1;
 }
 
@@ -121,7 +121,7 @@ void processShiftBrite()
   if(SB_changed == 1)
   {
     SB_changed = 0;
-    Serial.println("Updating ShiftBrites");
+//    Serial.println("Updating ShiftBrites");
 
 // Set the RGB values in each shiftbrite:
     SB_CommandMode = B00; // Write to PWM control registers
@@ -177,6 +177,6 @@ void initializeShiftBrite(void)
   // Initialize the various shiftbrite color states before we turn them on
   setCockpitColor(SB_DIM);
   setThrusterColor(HD_OFF);
-  setLaserCannonColor(SB_OFF);
+  setLaserCannonColorAndBrightness(SB_OFF,0);
   setR2D2Color(SB_OFF);
  }

@@ -163,23 +163,11 @@ void processR2D2(void)
   
   int numberOfSounds = sizeof(r2d2Sound)/sizeof(r2d2Sound[0]);
 
-  if (userInput == R2D2)
-  {  
-    if(playWaveFile(r2d2Sound[index].fileName,r2d2Sound[index].playPriority,userInput))
-    {
-      index ++;
-      if (index >= numberOfSounds) index = 0;
-      waitTimer = millis() + R2D2_LIGHT_CYCLE_TIME;
-      color = 0;
-    }
-  }
-  
-  else if(myWaveFileJustFinishedPlaying(R2D2))
+  if(myWaveFileJustFinishedPlaying(R2D2))
   {
     setR2D2Color(SB_OFF);
     return;
   }
-
   else if(myWaveFileIsPlaying(R2D2))
   {
     if (millis() < waitTimer) return;
@@ -190,29 +178,62 @@ void processR2D2(void)
       setR2D2Color(SB_RED);
       color = 1;
     }
-    else
+    else if(color == 1)
+    {
+      setR2D2Color(SB_GRN);
+      color = 2;
+    }
+    else if(color == 2)
     {
       setR2D2Color(SB_BLU);
       color = 0;
     }
   }
+  else if (userInput == R2D2)
+  {  
+    if(playWaveFile(r2d2Sound[index].fileName,r2d2Sound[index].playPriority,userInput))
+    {
+      index ++;
+      if (index >= numberOfSounds) index = 0;
+      waitTimer = millis() + R2D2_LIGHT_CYCLE_TIME;
+      color = 0;
+    }
+  }
 }
 
+#define LASER_LIGHT_CYCLE_TIME 30    // How often the shiftbrites are updated (in Milliseconds)
+#define LASER_FADE_FACTOR      .04   // Rate that laser cannon dims (from 100 down to 0)
 
 void processLaserCannon(void)
 {
-  if (userInput == LASER)
-  {  
-    playWaveFile("Laser.wav",4,userInput);
-    setVFDmessageActive(0, "  Laser Cannon");
-    SetVibratorMotorLeft(127);
-    setLaserCannonColor(SB_ORN);
-  }
+  static long waitTimer;
+  static float laserCannonBrightness;
+  
   if(myWaveFileJustFinishedPlaying(LASER))
   {
     setVFDmessageInactive(0);
     SetVibratorMotorLeft(0);
-    setLaserCannonColor(SB_OFF);
+    setLaserCannonColorAndBrightness(SB_OFF,0);
+  }
+  else if(myWaveFileIsPlaying(LASER))
+  {
+    if (millis() < waitTimer) return;
+    
+    setLaserCannonColorAndBrightness(SB_ORN,laserCannonBrightness);
+    waitTimer = millis() + LASER_LIGHT_CYCLE_TIME;
+    if (laserCannonBrightness >0)
+    {
+      laserCannonBrightness -= LASER_FADE_FACTOR;
+    }
+  }
+  else if (userInput == LASER)
+  {  
+    waitTimer = millis() + LASER_LIGHT_CYCLE_TIME;
+    laserCannonBrightness = 1;
+    playWaveFile("Laser.wav",4,userInput);
+    setVFDmessageActive(0, "  Laser Cannon");
+    SetVibratorMotorLeft(127);
+    setLaserCannonColorAndBrightness(SB_ORN,laserCannonBrightness);
   }
 }
 
