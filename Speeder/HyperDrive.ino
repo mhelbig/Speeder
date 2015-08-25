@@ -81,7 +81,7 @@ void processHyperDrive(void)
       if ( (rawThrottlePosition > throttlePosition + THROTTLE_HYSTERESIS) ||                 // then see if it changed enough to convert it to a hyperdrive speed
            (rawThrottlePosition < throttlePosition - THROTTLE_HYSTERESIS) )
       {
-        throttlePosition = rawThrottlePosition;
+        throttlePosition = (throttlePosition *.875) + (rawThrottlePosition *.125);
       }
     
       for(i=3; i>=0; i--)  //(sizeof(modes)/sizeof(modes[0]))

@@ -1,5 +1,3 @@
-#define MIN_RANDOM_WAIT_TIME              10000  // all times are in milliseconds
-#define MAX_RANDOM_WAIT_TIME              20000
 #define CB_MESSAGE_RESET_TIME             60000
 #define DELAY_BETWEEN_THEME_SONG_MESSAGES 8000
 
@@ -261,6 +259,9 @@ void processChewy(void)
     }
   }
 }
+
+#define MIN_RANDOM_WAIT_TIME              20000  // all times are in milliseconds
+#define MAX_RANDOM_WAIT_TIME              60000
 
 wavePlaylist randomSoundEffect[]=
 {
