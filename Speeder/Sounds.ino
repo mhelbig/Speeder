@@ -1,28 +1,38 @@
 #define CB_MESSAGE_RESET_TIME             60000
 #define DELAY_BETWEEN_THEME_SONG_MESSAGES 8000
 
+// Set the sound priorities, higher number = higher priority
+#define PRIORITY_SIMPLE_SOUNDS   4
+#define PRIORITY_CB_SOUNDS       2
+#define PRIORITY_GOOD_GUY_SOUNDS 3
+#define PRIORITY_BAD_GUY_SOUNDS  3
+#define PRIORITY_R2D2_SOUNDS     3
+#define PRIORITY_CHEWY_SOUNDS    3
+#define PRIORITY_RANDOM_SOUNDS   1
+#define PRIORITY_THEME_SONG      0
+
 void processSimpleSounds(void)
 {
   switch (userInput)
   {  
   case TAKE_OFF:
-    playWaveFile("Take_Off.wav",3,userInput);
+    playWaveFile("Take_Off.wav",PRIORITY_SIMPLE_SOUNDS,userInput);
     setVFDmessageActive(0, "    Take off");
     break;
   case BLASTER:
-    playWaveFile("Blaster.wav",4,userInput);
+    playWaveFile("Blaster.wav",PRIORITY_SIMPLE_SOUNDS,userInput);
     setVFDmessageActive(0, "    Blaster");
     break;
   case EXPLODE:
-    playWaveFile("EXPRL.wav",4,userInput);
+    playWaveFile("EXPRL.wav",PRIORITY_SIMPLE_SOUNDS,userInput);
     setVFDmessageActive(0, "   Explosion");
     break;
   case NINE_MM:
-    playWaveFile("Gun9mm.wav",4,userInput);
+    playWaveFile("Gun9mm.wav",PRIORITY_SIMPLE_SOUNDS,userInput);
     setVFDmessageActive(0, "      9mm");
     break;
   case STARTUP:
-    playWaveFile("PRSTO.wav",4,userInput);
+    playWaveFile("PRSTO.wav",PRIORITY_SIMPLE_SOUNDS,userInput);
     setVFDmessageActive(0, "    Start up");
   case MOTORS_OFF:
     SetVibratorMotorLeft(0);
@@ -32,11 +42,11 @@ void processSimpleSounds(void)
 
 wavePlaylist CBsound[]=
 {
-  {"CB1_LS.wav",2},
-  {"CB2_HS.wav",2},
-  {"CB3_HS.wav",2},
-  {"CB4_HC.wav",2},
-  {"CB5_DV.wav",2}
+  {"CB1_LS.wav",PRIORITY_CB_SOUNDS},
+  {"CB2_HS.wav",PRIORITY_CB_SOUNDS},
+  {"CB3_HS.wav",PRIORITY_CB_SOUNDS},
+  {"CB4_HC.wav",PRIORITY_CB_SOUNDS},
+  {"CB5_DV.wav",PRIORITY_CB_SOUNDS}
 };
 
 void runCBsequence(void)
@@ -74,11 +84,11 @@ void runCBsequence(void)
 
 wavePlaylist goodGuySound[]=
 {
-  {"Yoda001.wav",3},
-  {"Yoda002.wav",3},
-  {"Yoda003.wav",3},
-  {"Yoda004.wav",3},
-  {"Yoda005.wav",3}
+  {"Yoda001.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"Yoda002.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"Yoda003.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"Yoda004.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"Yoda005.wav",PRIORITY_GOOD_GUY_SOUNDS}
 };
 
 void processGoodGuys(void)
@@ -109,11 +119,11 @@ void processGoodGuys(void)
 
 wavePlaylist badGuySound[]=
 {
-  {"Jaba001.wav",3},
-  {"Alien01.wav",3},
-  {"Alien02.wav",3},
-  {"EN_TH01.wav",3},
-  {"EN_TH02.wav",3}
+  {"Jaba001.wav",PRIORITY_BAD_GUY_SOUNDS},
+  {"Alien01.wav",PRIORITY_BAD_GUY_SOUNDS},
+  {"Alien02.wav",PRIORITY_BAD_GUY_SOUNDS},
+  {"EN_TH01.wav",PRIORITY_BAD_GUY_SOUNDS},
+  {"EN_TH02.wav",PRIORITY_BAD_GUY_SOUNDS}
 };
 
 void processBadGuys(void)
@@ -144,11 +154,11 @@ void processBadGuys(void)
 
 wavePlaylist r2d2Sound[]=
 {
-  {"R2D2001.wav",3},
-  {"R2D2002.wav",3},
-  {"R2D2003.wav",3},
-  {"R2D2004.wav",3},
-  {"R2D2005.wav",3}
+  {"R2D2001.wav",PRIORITY_R2D2_SOUNDS},
+  {"R2D2002.wav",PRIORITY_R2D2_SOUNDS},
+  {"R2D2003.wav",PRIORITY_R2D2_SOUNDS},
+  {"R2D2004.wav",PRIORITY_R2D2_SOUNDS},
+  {"R2D2005.wav",PRIORITY_R2D2_SOUNDS}
 };
 
 #define R2D2_LIGHT_CYCLE_TIME 250
@@ -201,9 +211,9 @@ void processR2D2(void)
 
 wavePlaylist chewySound[]=
 {
-  {"Chew001.wav",3},
-  {"Chew002.wav",3},
-  {"Chew003.wav",3},
+  {"Chew001.wav",PRIORITY_CHEWY_SOUNDS},
+  {"Chew002.wav",PRIORITY_CHEWY_SOUNDS},
+  {"Chew003.wav",PRIORITY_CHEWY_SOUNDS},
 };
 
 void processChewy(void)
@@ -228,36 +238,36 @@ void processChewy(void)
 
 wavePlaylist randomSoundEffect[]=
 {
-  {"LSSPB01.wav",1},
-  {"LSSPB02.wav",1},
-  {"LSSPB03.wav",1},
-  {"LSSRB01.wav",1},
-  {"LSSRB02.wav",1},
-  {"LSSRB03.wav",1},
-  {"LSSRB04.wav",1},
-  {"LSSRB05.wav",1},
-  {"LSSRB06.wav",1},
-  {"LSSRB07.wav",1},
-  {"SATPB01.wav",1},
-  {"SATPB02.wav",1},
-  {"SATPB03.wav",1},
-  {"SATPB04.wav",1},
-  {"SFFB01.wav",1},
-  {"SOFB.wav",1},
-  {"SSPB01.wav",1},
-  {"SSPB02.wav",1},
-  {"SSPB03.wav",1},
-  {"SSPB04.wav",1},
-  {"SSPB05.wav",1},
-  {"SSPB06.wav",1},
-  {"SSPB07.wav",1},
-  {"SSPB08.wav",1},
-  {"SSTO01.wav",1},
-  {"TACFA.wav",1},
-  {"EXPRL.wav",1},
-  {"PR01.wav",1},
-  {"PR02.wav",1},
-  {"PR03.wav",1}
+  {"LSSPB01.wav",PRIORITY_RANDOM_SOUNDS},
+  {"LSSPB02.wav",PRIORITY_RANDOM_SOUNDS},
+  {"LSSPB03.wav",PRIORITY_RANDOM_SOUNDS},
+  {"LSSRB01.wav",PRIORITY_RANDOM_SOUNDS},
+  {"LSSRB02.wav",PRIORITY_RANDOM_SOUNDS},
+  {"LSSRB03.wav",PRIORITY_RANDOM_SOUNDS},
+  {"LSSRB04.wav",PRIORITY_RANDOM_SOUNDS},
+  {"LSSRB05.wav",PRIORITY_RANDOM_SOUNDS},
+  {"LSSRB06.wav",PRIORITY_RANDOM_SOUNDS},
+  {"LSSRB07.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SATPB01.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SATPB02.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SATPB03.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SATPB04.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SFFB01.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SOFB.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SSPB01.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SSPB02.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SSPB03.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SSPB04.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SSPB05.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SSPB06.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SSPB07.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SSPB08.wav",PRIORITY_RANDOM_SOUNDS},
+  {"SSTO01.wav",PRIORITY_RANDOM_SOUNDS},
+  {"TACFA.wav",PRIORITY_RANDOM_SOUNDS},
+  {"EXPRL.wav",PRIORITY_RANDOM_SOUNDS},
+  {"PR01.wav",PRIORITY_RANDOM_SOUNDS},
+  {"PR02.wav",PRIORITY_RANDOM_SOUNDS},
+  {"PR03.wav",PRIORITY_RANDOM_SOUNDS}
 };
 
 void playRandomSounds(void)
@@ -291,7 +301,7 @@ void initializeRandomGenerator(void)
 
 void playStarWarsThemeSong(void)
 {
-  playWaveFile("SWTM001.wav",0,0);  //start things off with the Star Wars theme song
+  playWaveFile("SWTM001.wav",PRIORITY_THEME_SONG,0);  //start things off with the Star Wars theme song
   directDisplayVFDmessage(" May the Force");
   delay(DELAY_BETWEEN_THEME_SONG_MESSAGES);
   
