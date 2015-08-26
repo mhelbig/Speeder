@@ -19,6 +19,17 @@
 #define STARTUP    'S'
 #define MOTORS_OFF 'M'
 #define FIX_HD     'F'
+#define SIMPLE_SND 's'
+
+// Set the sound priorities, higher number = higher priority
+#define PRIORITY_SIMPLE_SOUNDS   4
+#define PRIORITY_CB_SOUNDS       2
+#define PRIORITY_GOOD_GUY_SOUNDS 3
+#define PRIORITY_BAD_GUY_SOUNDS  3
+#define PRIORITY_R2D2_SOUNDS     3
+#define PRIORITY_CHEWY_SOUNDS    3
+#define PRIORITY_RANDOM_SOUNDS   1
+#define PRIORITY_THEME_SONG      0
 
 char userInput;
 

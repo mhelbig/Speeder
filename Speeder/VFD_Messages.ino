@@ -3,7 +3,7 @@
 #define VFD_CLK 29
 #define VFD_DATA 30
 
-#define SIZE_OF_MESSAGE_BUFFER 3
+#define SIZE_OF_MESSAGE_BUFFER 3  // how many unique messages we can manage from different sources, system will display the highest priority message
 
 M66004Vfd vfd(VFD_CS, VFD_CLK, VFD_DATA);
 

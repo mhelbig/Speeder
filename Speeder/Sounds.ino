@@ -1,43 +1,39 @@
 #define CB_MESSAGE_RESET_TIME             60000
 #define DELAY_BETWEEN_THEME_SONG_MESSAGES 8000
 
-// Set the sound priorities, higher number = higher priority
-#define PRIORITY_SIMPLE_SOUNDS   4
-#define PRIORITY_CB_SOUNDS       2
-#define PRIORITY_GOOD_GUY_SOUNDS 3
-#define PRIORITY_BAD_GUY_SOUNDS  3
-#define PRIORITY_R2D2_SOUNDS     3
-#define PRIORITY_CHEWY_SOUNDS    3
-#define PRIORITY_RANDOM_SOUNDS   1
-#define PRIORITY_THEME_SONG      0
-
 void processSimpleSounds(void)
 {
   switch (userInput)
   {  
   case TAKE_OFF:
-    playWaveFile("Take_Off.wav",PRIORITY_SIMPLE_SOUNDS,userInput);
+    playWaveFile("Take_Off.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
     setVFDmessageActive(0, "    Take off");
     break;
   case BLASTER:
-    playWaveFile("Blaster.wav",PRIORITY_SIMPLE_SOUNDS,userInput);
+    playWaveFile("Blaster.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
     setVFDmessageActive(0, "    Blaster");
     break;
   case EXPLODE:
-    playWaveFile("EXPRL.wav",PRIORITY_SIMPLE_SOUNDS,userInput);
+    playWaveFile("EXPRL.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
     setVFDmessageActive(0, "   Explosion");
     break;
   case NINE_MM:
-    playWaveFile("Gun9mm.wav",PRIORITY_SIMPLE_SOUNDS,userInput);
+    playWaveFile("Gun9mm.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
     setVFDmessageActive(0, "      9mm");
     break;
   case STARTUP:
-    playWaveFile("PRSTO.wav",PRIORITY_SIMPLE_SOUNDS,userInput);
+    playWaveFile("PRSTO.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
     setVFDmessageActive(0, "    Start up");
   case MOTORS_OFF:
     SetVibratorMotorLeft(0);
     SetVibratorMotorRight(0);
   }
+  
+  if(myWaveFileJustFinishedPlaying(SIMPLE_SND))
+  {
+    setVFDmessageInactive(0);
+  }
+  
 }
 
 wavePlaylist CBsound[]=
@@ -79,6 +75,11 @@ void runCBsequence(void)
       Serial.println("Resetting CB sequence index to inactivity");
     }
   }
+  if(myWaveFileJustFinishedPlaying(CB_SEQ))
+  {
+    setVFDmessageInactive(0);
+  }
+    
 }
 
 

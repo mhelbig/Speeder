@@ -1,6 +1,8 @@
 #define LASER_LIGHT_CYCLE_TIME           30  // How often the shiftbrites are updated (in Milliseconds)
 #define LASER_FADE_FACTOR                .04 // Rate that laser cannon dims (from 100 down to 0)
 #define MAX_LASER_FIRES_PER_MINUTE       6   // How many times you can fire the laser cannon in a minute before it overheats
+#define PRIORITY_LASER_CANNON            5
+#define VFD_BUFFER_LASER_CANNON          
 
 void processLaserCannon(void)
 {

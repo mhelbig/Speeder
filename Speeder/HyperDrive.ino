@@ -143,6 +143,7 @@ void updateHyperDriveDisplayAndSound(int setting)
     previousSetting=setting;
     if(setting > 0)
     {
+      setVFDmessageInactive(0);  // cancel any ongoing higher priority messages (cause they won't get pulled down)
       setVFDmessageActive(1, hyperDrive[setting].displayMessage);   //Show the current speed on the display
     }
     else
