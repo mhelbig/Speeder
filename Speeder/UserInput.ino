@@ -1,5 +1,4 @@
 // these functions use the button library to handle debouncing, edge detection, and hold time procesing of the digital inputs.
-//
 #define DEBOUNCE_MS 20     //debounce time = 20 mS for all inputs
 
 // define and declare the passenger button inputs:

@@ -1,3 +1,4 @@
+//define the Shiftbrite operating parameters
 #define SBclockpin  32  // CI
 #define SBenablepin 34  // EI
 #define SBlatchpin  33  // LI
@@ -21,10 +22,13 @@
 #define SB_YEL     1023, 1023, 0
 #define SB_ORN     1023, 255,  0
 
-// define the specific laser color:
+// define the specific laser colors:
 #define LASER_CANNON_COLOR_R 1023
 #define LASER_CANNON_COLOR_G 255
 #define LASER_CANNON_COLOR_B 0
+#define LASER_CANNON_HOT_R 1023
+#define LASER_CANNON_HOT_G 0
+#define LASER_CANNON_HOT_B 0
 
 // define the hyperdrive modes
 #define HD_OFF         0
@@ -108,11 +112,20 @@ void setR2D2Color(int r, int g, int b)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Laser cannon functions
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void setLaserCannonBrightness(float brightness)
+void setLaserCannonBrightness(float brightness, bool gettingHot)
 {
-  LEDChannels[SB_LASERCANNON][0] = LASER_CANNON_COLOR_R * brightness;
-  LEDChannels[SB_LASERCANNON][1] = LASER_CANNON_COLOR_G * brightness;
-  LEDChannels[SB_LASERCANNON][2] = LASER_CANNON_COLOR_B * brightness;
+  if (!gettingHot)
+  {
+    LEDChannels[SB_LASERCANNON][0] = LASER_CANNON_COLOR_R * brightness;
+    LEDChannels[SB_LASERCANNON][1] = LASER_CANNON_COLOR_G * brightness;
+    LEDChannels[SB_LASERCANNON][2] = LASER_CANNON_COLOR_B * brightness;
+  }
+  else
+  {
+    LEDChannels[SB_LASERCANNON][0] = LASER_CANNON_HOT_R * brightness;
+    LEDChannels[SB_LASERCANNON][1] = LASER_CANNON_HOT_G * brightness;
+    LEDChannels[SB_LASERCANNON][2] = LASER_CANNON_HOT_B * brightness;
+  }
   SB_changed = 1;
 }
 
@@ -182,6 +195,6 @@ void initializeShiftBrite(void)
   // Initialize the various shiftbrite color states before we turn them on
   setCockpitColor(SB_DIM);
   setThrusterColor(HD_OFF);
-  setLaserCannonBrightness(0);
+  setLaserCannonBrightness(0,0);
   setR2D2Color(SB_OFF);
  }

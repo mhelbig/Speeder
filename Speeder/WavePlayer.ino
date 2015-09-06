@@ -10,6 +10,8 @@ FatReader file;   // This object represent the WAV file
 WaveHC wave;      // This is the only wave (audio) object, since we will only play one at a time
 
 char currentWaveFileIdentifier = 0;
+char supercededWaveFileIdentifier = 0;
+boolean lastPlayState = 0;
 
 boolean waveFileIsPlaying(void)
 {
@@ -30,7 +32,7 @@ boolean myWaveFileIsPlaying(char identifier)
 
 boolean myWaveFileJustFinishedPlaying(char identifier)
 {
-  static bool lastPlayState = 0;
+  boolean result = 0;
   
   if (identifier == currentWaveFileIdentifier)
   {
@@ -39,14 +41,20 @@ boolean myWaveFileJustFinishedPlaying(char identifier)
       Serial.print("waveFileJustFinishedPlaying = "); Serial.println(currentWaveFileIdentifier);
       lastPlayState=0;
       currentWaveFileIdentifier = 0;
-      return(1);
+      result = 1;
     }
     else
     {
       lastPlayState = wave.isplaying;
     }
   }
-  return(0);
+  if (identifier == supercededWaveFileIdentifier)
+  {
+    Serial.print("supercededJustFinishedPlaying = "); Serial.println(supercededWaveFileIdentifier);
+    supercededWaveFileIdentifier = 0;
+    result = 1;
+  }
+  return(result);
 }
 
 boolean playWaveFile(char *waveFile, int priority, char identifier)
@@ -61,8 +69,13 @@ boolean playWaveFile(char *waveFile, int priority, char identifier)
       Serial.println(" has lower priority.  Ignoring.");
       return(false);
     }
-    wave.stop();
-    Serial.print("Superceded by higher priority. ");
+    else
+    {
+      wave.stop();
+      lastPlayState=0;
+      Serial.print("Superceded by higher priority. Saving '"); Serial.print(currentWaveFileIdentifier); Serial.println("' ");
+      supercededWaveFileIdentifier = currentWaveFileIdentifier;  // save the previous identifier so that functions can see that it's no longer playing their file
+    }
   }
   
   Serial.print("Playing: ");

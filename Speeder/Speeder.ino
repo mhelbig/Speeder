@@ -10,7 +10,6 @@
 #define BAD_GUYS   'B'
 #define GOOD_GUYS  'G'
 #define R2D2       'R'
-#define CHEWY      'W'
 #define LASER      'L'
 #define TAKE_OFF   'T'
 #define BLASTER    'P'
@@ -19,6 +18,7 @@
 #define STARTUP    'S'
 #define MOTORS_OFF 'M'
 #define FIX_HD     'F'
+#define FIX_LC     'K'
 #define SIMPLE_SND 's'
 
 // Set the sound priorities, higher number = higher priority
@@ -39,7 +39,9 @@ struct wavePlaylist
   int playPriority;
 };
 
-//////////////////////////////////// SETUP
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Initialization
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
   Serial.begin(56700);
   Serial.println("Speeder Main System Control Module");
@@ -55,19 +57,26 @@ void setup() {
   setVFDmessageActive(2, " All Systems Go");  // default message displayed if nothing else is going on
 }
 
-//////////////////////////////////// LOOP
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Main Loop
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop()
 {
   processHyperDrive();            // Takes care of throttle, temperature, repair
 
   userInput = scanForUserInput(); // returns identifier key to call associated functions below
   processSimpleSounds();          // Functions that just play sound files
+  processVFDmessages();           // display the highest priority message on the VFD screen
   runCBsequence();                // Keeps track of CB sequence and plays recorded messages
+  processVFDmessages();           // display the highest priority message on the VFD screen
   processGoodGuys();              // Plays series of good guy sound files
+  processVFDmessages();           // display the highest priority message on the VFD screen
   processBadGuys();               // Plays series of bad guy sound files
+  processVFDmessages();           // display the highest priority message on the VFD screen
   processR2D2();                  // R2D2 plays sounds and color sequences in response to motion sensor
+  processVFDmessages();           // display the highest priority message on the VFD screen
   processLaserCannon();           // Takes care of firing and eventually overheating and repair
-  processChewy();                 // Plays series of Chewbacca sound files
+  processVFDmessages();           // display the highest priority message on the VFD screen
   playRandomSounds();             // Random sounds play throughout
   
   processVFDmessages();           // display the highest priority message on the VFD screen

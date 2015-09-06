@@ -1,8 +1,13 @@
-#define CB_MESSAGE_RESET_TIME             60000
-#define DELAY_BETWEEN_THEME_SONG_MESSAGES 8000
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Simple Sounds
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void processSimpleSounds(void)
 {
+  if(myWaveFileJustFinishedPlaying(SIMPLE_SND))
+  {
+    setVFDmessageInactive(0);
+  }
+
   switch (userInput)
   {  
   case TAKE_OFF:
@@ -28,13 +33,12 @@ void processSimpleSounds(void)
     SetVibratorMotorLeft(0);
     SetVibratorMotorRight(0);
   }
-  
-  if(myWaveFileJustFinishedPlaying(SIMPLE_SND))
-  {
-    setVFDmessageInactive(0);
-  }
-  
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//CB Message Sequence Sounds
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define CB_MESSAGE_RESET_TIME             60000
 
 wavePlaylist CBsound[]=
 {
@@ -52,6 +56,11 @@ void runCBsequence(void)
   
   int numberOfSounds = sizeof(CBsound)/sizeof(CBsound[0]);
 
+  if(myWaveFileJustFinishedPlaying(CB_SEQ))
+  {
+    setVFDmessageInactive(0);
+  }
+    
   if (userInput == CB_SEQ)
   {
 
@@ -75,21 +84,22 @@ void runCBsequence(void)
       Serial.println("Resetting CB sequence index to inactivity");
     }
   }
-  if(myWaveFileJustFinishedPlaying(CB_SEQ))
-  {
-    setVFDmessageInactive(0);
-  }
-    
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Good Guy Sounds
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 wavePlaylist goodGuySound[]=
 {
   {"Yoda001.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"Chew001.wav",PRIORITY_CHEWY_SOUNDS},
   {"Yoda002.wav",PRIORITY_GOOD_GUY_SOUNDS},
   {"Yoda003.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"Chew002.wav",PRIORITY_CHEWY_SOUNDS},
   {"Yoda004.wav",PRIORITY_GOOD_GUY_SOUNDS},
-  {"Yoda005.wav",PRIORITY_GOOD_GUY_SOUNDS}
+  {"Yoda005.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"Chew003.wav",PRIORITY_CHEWY_SOUNDS}
 };
 
 void processGoodGuys(void)
@@ -99,6 +109,11 @@ void processGoodGuys(void)
   
   int numberOfSounds = sizeof(goodGuySound)/sizeof(goodGuySound[0]);
 
+  if(myWaveFileJustFinishedPlaying(GOOD_GUYS))
+  {
+    setCockpitColor(SB_DIM);
+    setVFDmessageInactive(0);
+  }
   if (userInput == GOOD_GUYS)
   {  
     if(playWaveFile(goodGuySound[index].fileName,goodGuySound[index].playPriority,userInput))
@@ -109,15 +124,12 @@ void processGoodGuys(void)
       if (index >= numberOfSounds) index = 0;
     }
   }
-  
-  if(myWaveFileJustFinishedPlaying(GOOD_GUYS))
-  {
-    setCockpitColor(SB_DIM);
-    setVFDmessageInactive(0);
-  }
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Bad Guy Sounds
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 wavePlaylist badGuySound[]=
 {
   {"Jaba001.wav",PRIORITY_BAD_GUY_SOUNDS},
@@ -153,6 +165,9 @@ void processBadGuys(void)
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//R2D2 Sounds
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 wavePlaylist r2d2Sound[]=
 {
   {"R2D2001.wav",PRIORITY_R2D2_SOUNDS},
@@ -210,32 +225,11 @@ void processR2D2(void)
   }
 }
 
-wavePlaylist chewySound[]=
-{
-  {"Chew001.wav",PRIORITY_CHEWY_SOUNDS},
-  {"Chew002.wav",PRIORITY_CHEWY_SOUNDS},
-  {"Chew003.wav",PRIORITY_CHEWY_SOUNDS},
-};
-
-void processChewy(void)
-{
-  static long waitTimer;
-  static char index = 0;
-  
-  int numberOfSounds = sizeof(chewySound)/sizeof(chewySound[0]);
-
-  if (userInput == CHEWY)
-  {  
-    if(playWaveFile(chewySound[index].fileName,chewySound[index].playPriority,userInput))
-    {
-      index ++;
-      if (index >= numberOfSounds) index = 0;
-    }
-  }
-}
-
-#define MIN_RANDOM_WAIT_TIME              20000  // all times are in milliseconds
-#define MAX_RANDOM_WAIT_TIME              60000
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Random Sounds
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define MIN_RANDOM_WAIT_TIME              60000  // all times are in milliseconds
+#define MAX_RANDOM_WAIT_TIME              180000
 
 wavePlaylist randomSoundEffect[]=
 {
@@ -299,6 +293,11 @@ void initializeRandomGenerator(void)
   randomSeed(analogRead(0));
   Serial.println("RND gen init.");
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Theme song and welcome messages
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define DELAY_BETWEEN_THEME_SONG_MESSAGES 8000
 
 void playStarWarsThemeSong(void)
 {
