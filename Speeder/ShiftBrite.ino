@@ -23,12 +23,13 @@
 #define SB_ORN     1023, 255,  0
 
 // define the specific laser colors:
-#define LASER_CANNON_COLOR_R 1023
-#define LASER_CANNON_COLOR_G 255
-#define LASER_CANNON_COLOR_B 0
-#define LASER_CANNON_HOT_R 1023
-#define LASER_CANNON_HOT_G 0
-#define LASER_CANNON_HOT_B 0
+#define LASER_CANNON_COLOR_R  1023
+#define LASER_CANNON_COLOR_G  255
+#define LASER_CANNON_COLOR_B  0
+#define LASER_CANNON_HOT_R    1023
+#define LASER_CANNON_HOT_G    0
+#define LASER_CANNON_HOT_B    0
+#define LASER_CANNON_HOT_GLOW .1
 
 // define the hyperdrive modes
 #define HD_OFF         0
@@ -122,6 +123,7 @@ void setLaserCannonBrightness(float brightness, bool gettingHot)
   }
   else
   {
+    if(brightness < LASER_CANNON_HOT_GLOW) brightness = LASER_CANNON_HOT_GLOW;
     LEDChannels[SB_LASERCANNON][0] = LASER_CANNON_HOT_R * brightness;
     LEDChannels[SB_LASERCANNON][1] = LASER_CANNON_HOT_G * brightness;
     LEDChannels[SB_LASERCANNON][2] = LASER_CANNON_HOT_B * brightness;

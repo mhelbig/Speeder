@@ -26,10 +26,10 @@ void processLaserCannon(void)
   {
     setVFDmessageInactive(0);
     SetVibratorMotorLeft(0);
-    setLaserCannonBrightness(0,0);
+    setLaserCannonBrightness(0,laserCannonTemperature>LASER_GETTING_HOT);
   }
   
-  else if(myWaveFileIsPlaying(LASER))  // control the light inside the laser cannon when the sound is playing
+  else if(myWaveFileIsPlaying(LASER))  // modulate the light inside the laser cannon when the sound is playing
   {
     if (millis() < waitTimer) return;
     
@@ -57,6 +57,7 @@ void processLaserCannon(void)
       laserCannonIsOverheated = 0;
       laserCannonTemperature = 0;
       electricalCompartmentHasBeenDisassembled = 0;
+      setLaserCannonBrightness(0, 0);
       setVFDmessageInactive(0);
     }
     return;  // stop processing the rest of the laser cannon features until it gets repaired
@@ -76,6 +77,11 @@ void processLaserCannon(void)
     {
       laserCannonTemperature--;
     }
+    
+    if(laserCannonTemperature == LASER_GETTING_HOT)
+    {
+      setLaserCannonBrightness(laserCannonBrightness,0);  //turn off the laser glow once we cool down enough
+    }      
   }
   
   else if (userInput == LASER)  // check for user input and start the laser cannon fire sequence
@@ -85,7 +91,7 @@ void processLaserCannon(void)
     playWaveFile("Laser.wav",4,userInput);
     setVFDmessageActive(0, "  Laser Cannon");
     SetVibratorMotorLeft(127);
-    setLaserCannonBrightness(laserCannonBrightness,0);
+    setLaserCannonBrightness(laserCannonBrightness,laserCannonTemperature>LASER_GETTING_HOT);
     laserCannonTemperature += LASER_THERMAL_RISE;
     Serial.print("laserCannonTemperature = "); Serial.println(laserCannonTemperature);
   }
