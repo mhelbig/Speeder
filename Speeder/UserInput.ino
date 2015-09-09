@@ -77,28 +77,28 @@ char scanPassengerButtons(void)
   passengerWeapon6.read();
   
   if(passengerGoodGuy.wasPressed())
-    return('G');
+    return(WHEEL_A);
   
   if(passengerBadGuy.wasPressed())
-    return('B');
+    return(WHEEL_B);
   
   if(passengerWeapon1.wasPressed())
-    return('T');
+    return(PASSENGER_BUTTON_1);
   
   if(passengerWeapon2.wasPressed())
-    return('L');
+    return(PASSENGER_BUTTON_2);
   
   if(passengerWeapon3.wasPressed())
-    return('P');
+    return(PASSENGER_BUTTON_3);
   
   if(passengerWeapon4.wasPressed())
-    return('E');
+    return(PASSENGER_BUTTON_4);
   
   if(passengerWeapon5.wasPressed())
-    return('N');
+    return(PASSENGER_BUTTON_5);
   
   if(passengerWeapon6.wasPressed())
-    return('S');
+    return(PASSENGER_BUTTON_6);
     
   return(0);
 }

@@ -5,10 +5,10 @@ const byte ROWS = 4;
 const byte COLS = 4;
 char keys[ROWS][COLS] = 
 {
-  {'B','C','M','1'}, //  | B      | L2     | SELECT | CTR FWD
-  {'G','R','E','1'}, //  | A      | R2     | LF PD  | CTR RT
-  {'T','L','N','1'}, //  | I      | LF PU  | RT PD  | CTR DN
-  {'W','P','S','1'}  //  | II     | RT PU  | START  | CTR LF
+  {WHEEL_B,  WHEEL_L2,    WHEEL_SELECT,  WHEEL_CTR_FW}, //  | B      | L2     | SELECT | CTR FWD
+  {WHEEL_A,  WHEEL_R2,    WHEEL_LF_PD,   WHEEL_CTR_RT}, //  | A      | R2     | LF PD  | CTR RT
+  {WHEEL_I,  WHEEL_LF_PU, WHEEL_RT_PD,   WHEEL_CTR_DN}, //  | I      | LF PU  | RT PD  | CTR DN
+  {WHEEL_II, WHEEL_RT_PU, WHEEL_START,   WHEEL_CTR_LF}  //  | II     | RT PU  | START  | CTR LF
 };
 
 // Mad Catz MC2 Steering wheel wire color matrix connections

@@ -75,7 +75,7 @@ void processHyperDrive(void)
   {
     rawThrottlePosition = analogRead(THROTTLE_INPUT);
     
-    if ( (rawThrottlePosition < previousRawThrottlePosition + THROTTLE_DEBOUNCE_COUNTS) ||   // wait until it stops changing
+    if ( (rawThrottlePosition < previousRawThrottlePosition + THROTTLE_DEBOUNCE_COUNTS) ||   // wait until it stops changing   !!!! this is going too fast to be of value, throttle this with another timer !!!!
          (rawThrottlePosition > previousRawThrottlePosition - THROTTLE_DEBOUNCE_COUNTS) )
     {
       if ( (rawThrottlePosition > throttlePosition + THROTTLE_HYSTERESIS) ||                 // then see if it changed enough to convert it to a hyperdrive speed
@@ -99,6 +99,7 @@ void processHyperDrive(void)
   {  
     oneSecondTimer = millis();
 
+    Serial.print("rawThrottlePosition = "); Serial.println(rawThrottlePosition);
 //    Serial.print("hyperDriveTemperature = ");  Serial.println(hyperDriveTemperature);
     switch (hyperDriveSpeed)
     {  

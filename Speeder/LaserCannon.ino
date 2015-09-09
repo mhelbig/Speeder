@@ -22,14 +22,14 @@ bool laserCannonIsOverheated = 0;
   
 void processLaserCannon(void)
 {
-  if(myWaveFileJustFinishedPlaying(LASER)) // shut off the vibrator motors and laser cannon light when the sound is done playing
+  if(myWaveFileJustFinishedPlaying(LASER_CANNON_BUTTON)) // shut off the vibrator motors and laser cannon light when the sound is done playing
   {
     setVFDmessageInactive(0);
     SetVibratorMotorLeft(0);
     setLaserCannonBrightness(0,laserCannonTemperature>LASER_GETTING_HOT);
   }
   
-  else if(myWaveFileIsPlaying(LASER))  // modulate the light inside the laser cannon when the sound is playing
+  else if(myWaveFileIsPlaying(LASER_CANNON_BUTTON))  // modulate the light inside the laser cannon when the sound is playing
   {
     if (millis() < waitTimer) return;
     
@@ -59,6 +59,7 @@ void processLaserCannon(void)
       electricalCompartmentHasBeenDisassembled = 0;
       setLaserCannonBrightness(0, 0);
       setVFDmessageInactive(0);
+      // PLAY SOUND HERE !!!!!!!!!!
     }
     return;  // stop processing the rest of the laser cannon features until it gets repaired
   } 
@@ -84,7 +85,7 @@ void processLaserCannon(void)
     }      
   }
   
-  else if (userInput == LASER)  // check for user input and start the laser cannon fire sequence
+  else if (userInput == LASER_CANNON_BUTTON)  // check for user input and start the laser cannon fire sequence
   {  
     waitTimer = millis() + LASER_LIGHT_CYCLE_TIME;
     laserCannonBrightness = 1;
