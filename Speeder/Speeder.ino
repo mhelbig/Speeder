@@ -1,8 +1,8 @@
-#include <WaveHC.h>
-#include <WaveUtil.h>
+#include <WaveHC.h>    // Plays .wav files from SD card
+#include <WaveUtil.h>  // Plays .wav files from SD card
 #include <MemoryFree.h>
-#include <Keypad.h>
-#include <Button.h>
+#include <Keypad.h>    // Wheel interface
+#include <Button.h>    // Discrete IO interface
 #include <M66004Vfd.h> // VFD library.
 
 // map wheel buttons to identifier characters:
@@ -32,7 +32,7 @@
 #define PASSENGER_BUTTON_6    WHEEL_START
 
 // map the various functions to the associated button inputs that activate them
-#define LASER_CANNON_BUTTON   WHEEL_RT_PU
+#define LASER_CANNON_BUTTON   WHEEL_LF_PU
 #define GOOD_GUYS_BUTTON      WHEEL_A
 #define BAD_GUYS_BUTTON       WHEEL_B
 
@@ -80,7 +80,7 @@ void setup() {
   
   initializeShiftBrite();
   
-//  playStarWarsThemeSong();
+  playStarWarsThemeSong();
   setVFDmessageActive(2, " All Systems Go");  // default message displayed if nothing else is going on
 }
 
