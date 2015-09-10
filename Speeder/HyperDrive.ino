@@ -6,7 +6,7 @@
 
 // define the throttle parameters
 #define THROTTLE_INPUT            A0
-#define THROTTLE_HYSTERESIS       50
+#define THROTTLE_HYSTERESIS       15
 #define THROTTLE_DEBOUNCE_COUNTS  5 // used for "debouncing" the throttle input, we wait for the input to change less than this amount before we consider it stable
 
 typedef struct modes
@@ -19,11 +19,11 @@ typedef struct modes
 modes hyperDrive[]=
 {
   {0,  "null"            ,"null.wav"},   //Nothing gets displayed or played when the throttle is all the way down
-  {300,"  LightSpeed    ","PR01.wav"},
-  {600,"Ridiculous Speed","PR02.wav"},
-  {900,"Ludicrous  Speed","PRSTO.wav"},
-  {900," Hyperdrive Hot ","EXPRL.wav"},
-  {900," Fix Hyperdrive ","ENRSF1.wav"}
+  {45,"  LightSpeed    ","PR01.wav"},
+  {100,"Ridiculous Speed","PR02.wav"},
+  {175,"Ludicrous  Speed","PRSTO.wav"},
+  {200," Hyperdrive Hot ","EXPRL.wav"},
+  {200," Fix Hyperdrive ","ENRSF1.wav"}
 };
 
 // define and declare the hyperdrive repair compartment inputs:

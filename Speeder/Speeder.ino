@@ -80,7 +80,7 @@ void setup() {
   
   initializeShiftBrite();
   
-  playStarWarsThemeSong();
+//  playStarWarsThemeSong();
   setVFDmessageActive(2, " All Systems Go");  // default message displayed if nothing else is going on
 }
 

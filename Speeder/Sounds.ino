@@ -16,7 +16,7 @@ void processSimpleSounds(void)
     break;
   case SIMPLE_SOUND_2:
     playWaveFile("Blaster.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
-    setVFDmessageActive(0, "    WHEEL_RT_PU");
+    setVFDmessageActive(0, "    BLASTER");
     break;
   case SIMPLE_SOUND_3:
     playWaveFile("EXPRL.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
@@ -309,7 +309,7 @@ void playStarWarsThemeSong(void)
   directDisplayVFDmessage("  be with you");
   delay(DELAY_BETWEEN_THEME_SONG_MESSAGES);
   
-  directDisplayVFDmessage("Finn and Shamus");
+  directDisplayVFDmessage("Finn and Seamus");
   delay(DELAY_BETWEEN_THEME_SONG_MESSAGES);
 }
 
