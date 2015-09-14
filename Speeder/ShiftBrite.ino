@@ -4,13 +4,14 @@
 #define SBlatchpin  33  // LI
 #define SBdatapin   31  // DI
 
-#define NUM_SHIFTBRITES 3
+#define NUM_SHIFTBRITES 4
 
 // define the shiftbrites in the serial chain, last device first
-#define SB_LASERCANNON   0
-#define SB_THRUSTERS     1
-#define SB_COCKPIT       3
-#define SB_R2D2          2
+#define SB_LASERCANNON   2
+#define SB_THRUSTERS     0
+#define SB_R2D2          1
+#define SB_COCKPIT_PAS   5
+#define SB_COCKPIT_DRV   3
 
 // define some common RGB color values
 #define SB_OFF     0,    0,    0
@@ -52,9 +53,13 @@ boolean SB_changed = 1;     //flag to indicate when we need to update the shiftb
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setCockpitColor(int r, int g, int b)
 {
-  LEDChannels[SB_COCKPIT][0]=r;
-  LEDChannels[SB_COCKPIT][1]=g;
-  LEDChannels[SB_COCKPIT][2]=b;
+  LEDChannels[SB_COCKPIT_DRV][0]=r;
+  LEDChannels[SB_COCKPIT_DRV][1]=g;
+  LEDChannels[SB_COCKPIT_DRV][2]=b;
+
+  LEDChannels[SB_COCKPIT_PAS][0]=r;
+  LEDChannels[SB_COCKPIT_PAS][1]=g;
+  LEDChannels[SB_COCKPIT_PAS][2]=b;
   SB_changed = 1;
 }
 

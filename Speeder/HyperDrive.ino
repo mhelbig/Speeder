@@ -99,7 +99,7 @@ void processHyperDrive(void)
   {  
     oneSecondTimer = millis();
 
-    Serial.print("rawThrottlePosition = "); Serial.println(rawThrottlePosition);
+//    Serial.print("rawThrottlePosition = "); Serial.println(rawThrottlePosition);
 //    Serial.print("hyperDriveTemperature = ");  Serial.println(hyperDriveTemperature);
     switch (hyperDriveSpeed)
     {  
@@ -144,15 +144,15 @@ void updateHyperDriveDisplayAndSound(int setting)
     previousSetting=setting;
     if(setting > 0)
     {
-      setVFDmessageActive(1, hyperDrive[setting].displayMessage);   //Show the current speed on the display
+      setVFDmessageActive(HYPERDRIVE_SOUNDS, hyperDrive[setting].displayMessage);   //Show the current speed on the display
     }
     else
     {
-      setVFDmessageInactive(1);
+      setVFDmessageInactive(HYPERDRIVE_SOUNDS);
     }
     if (setting !=0)
     {
-      playWaveFile(hyperDrive[setting].soundFile,4,0);
+      playWaveFile(hyperDrive[setting].soundFile,HYPERDRIVE_SOUNDS,'.');
     }
   }
 }

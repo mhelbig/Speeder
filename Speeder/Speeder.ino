@@ -12,10 +12,10 @@
 #define WHEEL_II     '2'
 #define WHEEL_START  'S'
 #define WHEEL_SELECT 'M'
-#define WHEEL_L2     'C'
+#define WHEEL_L2     'L'
 #define WHEEL_R2     'R'
-#define WHEEL_LF_PU  'L'
-#define WHEEL_RT_PU  'P'
+#define WHEEL_LF_PU  'P'
+#define WHEEL_RT_PU  'D'
 #define WHEEL_LF_PD  'E'
 #define WHEEL_RT_PD  'N'
 #define WHEEL_CTR_FW '7'
@@ -23,7 +23,11 @@
 #define WHEEL_CTR_DN '9'  
 #define WHEEL_CTR_RT '0'
 
-// passenger buttons mimic certain buttons on the wheel.  Map them here:
+//map the passenger buttons here:
+#define GOOD_GUYS_BUTTON      'Q'
+#define BAD_GUYS_BUTTON       'W'
+
+// some of the passenger buttons mimic buttons on the wheel.  Map them here:
 #define PASSENGER_BUTTON_1    WHEEL_I
 #define PASSENGER_BUTTON_2    WHEEL_LF_PU
 #define PASSENGER_BUTTON_3    WHEEL_RT_PU
@@ -33,8 +37,6 @@
 
 // map the various functions to the associated button inputs that activate them
 #define LASER_CANNON_BUTTON   WHEEL_LF_PU
-#define GOOD_GUYS_BUTTON      WHEEL_A
-#define BAD_GUYS_BUTTON       WHEEL_B
 
 #define SIMPLE_SOUND_1        WHEEL_I
 #define SIMPLE_SOUND_2        WHEEL_RT_PU
@@ -44,17 +46,21 @@
 #define SIMPLE_SOUND_6        WHEEL_II
 
 // assorted character mappings used internally to signal things that are going on
-#define FIX_HD       'F'
-#define FIX_LC       'K'
-#define SIMPLE_SND   's'
+#define CB_MIC_PUSHBUTTON 'C'
+#define R2D2              'V'
+#define FIX_HD            'F'
+#define FIX_LC            'K'
+#define SIMPLE_SND        's'
 
-// Set the sound priorities, higher number = higher priority
-#define PRIORITY_SIMPLE_SOUNDS   4
-#define PRIORITY_CB_SOUNDS       2
+// Set the sound priorities and corresponding VFD buffers, higher number = higher priority
+// Remember to adjust the size of the message display buffer if you increase the highest priority number
+#define HYPERDRIVE_SOUNDS        5
+#define LASER_SOUND              4
+#define PRIORITY_CB_SOUNDS       3
 #define PRIORITY_GOOD_GUY_SOUNDS 3
 #define PRIORITY_BAD_GUY_SOUNDS  3
-#define PRIORITY_R2D2_SOUNDS     3
-#define PRIORITY_CHEWY_SOUNDS    3
+#define PRIORITY_SIMPLE_SOUNDS   2
+#define PRIORITY_R2D2_SOUNDS     1
 #define PRIORITY_RANDOM_SOUNDS   1
 #define PRIORITY_THEME_SONG      0
 
@@ -79,9 +85,10 @@ void setup() {
   initializeRandomGenerator();
   
   initializeShiftBrite();
+  initializeCB();
   
 //  playStarWarsThemeSong();
-  setVFDmessageActive(2, " All Systems Go");  // default message displayed if nothing else is going on
+  setVFDmessageActive(0, " All Systems Go");  // default message displayed if nothing else is going on
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

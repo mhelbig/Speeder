@@ -24,7 +24,7 @@ void processLaserCannon(void)
 {
   if(myWaveFileJustFinishedPlaying(LASER_CANNON_BUTTON)) // shut off the vibrator motors and laser cannon light when the sound is done playing
   {
-    setVFDmessageInactive(0);
+    setVFDmessageInactive(LASER_SOUND);
     SetVibratorMotorLeft(0);
     setLaserCannonBrightness(0,laserCannonTemperature>LASER_GETTING_HOT);
   }
@@ -39,6 +39,7 @@ void processLaserCannon(void)
     {
       laserCannonBrightness -= LASER_FADE_FACTOR;
     }
+    return;
   }
   
   else if (laserCannonIsOverheated == 1)
@@ -58,7 +59,7 @@ void processLaserCannon(void)
       laserCannonTemperature = 0;
       electricalCompartmentHasBeenDisassembled = 0;
       setLaserCannonBrightness(0, 0);
-      setVFDmessageInactive(0);
+      setVFDmessageInactive(LASER_SOUND);
       // PLAY SOUND HERE !!!!!!!!!!
     }
     return;  // stop processing the rest of the laser cannon features until it gets repaired
@@ -66,8 +67,8 @@ void processLaserCannon(void)
 
   else if(laserCannonTemperature > LASER_OVERHEATED) // check if the laser cannon temperature is too high
   {
-    playWaveFile("ENRSF1.wav",4,userInput);
-    setVFDmessageActive(0, " Laser Overheat");
+    playWaveFile("ENRSF1.wav",LASER_SOUND,userInput);
+    setVFDmessageActive(LASER_SOUND, " Laser Overheat");
     laserCannonIsOverheated = 1;
   }
 
@@ -90,7 +91,7 @@ void processLaserCannon(void)
     waitTimer = millis() + LASER_LIGHT_CYCLE_TIME;
     laserCannonBrightness = 1;
     playWaveFile("Laser.wav",4,userInput);
-    setVFDmessageActive(0, "  Laser Cannon");
+    setVFDmessageActive(LASER_SOUND, "  Laser Cannon");
     SetVibratorMotorLeft(127);
     setLaserCannonBrightness(laserCannonBrightness,laserCannonTemperature>LASER_GETTING_HOT);
     laserCannonTemperature += LASER_THERMAL_RISE;

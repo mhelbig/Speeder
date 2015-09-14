@@ -5,89 +5,31 @@ void processSimpleSounds(void)
 {
   if(myWaveFileJustFinishedPlaying(SIMPLE_SND))
   {
-    setVFDmessageInactive(0);
+    setVFDmessageInactive(PRIORITY_SIMPLE_SOUNDS);
   }
 
   switch (userInput)
   {  
   case SIMPLE_SOUND_1:
-    playWaveFile("Take_Off.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
-    setVFDmessageActive(0, "    Take off");
+    if(playWaveFile("Take_Off.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Take off");
     break;
   case SIMPLE_SOUND_2:
-    playWaveFile("Blaster.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
-    setVFDmessageActive(0, "    BLASTER");
+    if(playWaveFile("Blaster.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    BLASTER");
     break;
   case SIMPLE_SOUND_3:
-    playWaveFile("EXPRL.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
-    setVFDmessageActive(0, "   Explosion");
+    if(playWaveFile("EXPRL.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "   Explosion");
     break;
   case SIMPLE_SOUND_4:
-    playWaveFile("Gun9mm.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
-    setVFDmessageActive(0, "      9mm");
+    if(playWaveFile("Gun9mm.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "      9mm");
     break;
   case SIMPLE_SOUND_5:
-    playWaveFile("PRSTO.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
-    setVFDmessageActive(0, "    Start up");
+    if(playWaveFile("PRSTO.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Start up");
     break;
   case SIMPLE_SOUND_6:
-//    playWaveFile("XXXXXX.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND);
-//    setVFDmessageActive(0, "    ??????");
+//    if(playWaveFile("XXXXXX.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    ??????");
     break;
   }
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//CB Message Sequence Sounds
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define CB_MESSAGE_RESET_TIME             60000
-
-wavePlaylist CBsound[]=
-{
-  {"CB1_LS.wav",PRIORITY_CB_SOUNDS},
-  {"CB2_HS.wav",PRIORITY_CB_SOUNDS},
-  {"CB3_HS.wav",PRIORITY_CB_SOUNDS},
-  {"CB4_HC.wav",PRIORITY_CB_SOUNDS},
-  {"CB5_DV.wav",PRIORITY_CB_SOUNDS}
-};
-
-void runCBsequence(void)
-{
-  static long waitTimer;
-  static char index = 0;
-  
-  int numberOfSounds = sizeof(CBsound)/sizeof(CBsound[0]);
-
-  if(myWaveFileJustFinishedPlaying(WHEEL_L2))
-  {
-    setVFDmessageInactive(0);
-  }
-    
-  if (userInput == WHEEL_L2)
-  {
-
-    if(playWaveFile(CBsound[index].fileName,CBsound[index].playPriority,userInput))
-    {
-      setVFDmessageActive(0, "Incoming Message");
-      waitTimer = millis();
-      index ++;
-      if (index >= numberOfSounds)
-      {
-        index = 0;
-      }
-    }
-  }
-  else
-  {
-    if (index !=0 && millis() - waitTimer > CB_MESSAGE_RESET_TIME)
-    {
-      index = 0;
-      waitTimer = millis();
-      Serial.println("Resetting CB sequence index to inactivity");
-    }
-  }
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Good Guy Sounds
@@ -95,13 +37,13 @@ void runCBsequence(void)
 wavePlaylist goodGuySound[]=
 {
   {"Yoda001.wav",PRIORITY_GOOD_GUY_SOUNDS},
-  {"Chew001.wav",PRIORITY_CHEWY_SOUNDS},
+  {"Chew001.wav",PRIORITY_GOOD_GUY_SOUNDS},
   {"Yoda002.wav",PRIORITY_GOOD_GUY_SOUNDS},
   {"Yoda003.wav",PRIORITY_GOOD_GUY_SOUNDS},
-  {"Chew002.wav",PRIORITY_CHEWY_SOUNDS},
+  {"Chew002.wav",PRIORITY_GOOD_GUY_SOUNDS},
   {"Yoda004.wav",PRIORITY_GOOD_GUY_SOUNDS},
   {"Yoda005.wav",PRIORITY_GOOD_GUY_SOUNDS},
-  {"Chew003.wav",PRIORITY_CHEWY_SOUNDS}
+  {"Chew003.wav",PRIORITY_GOOD_GUY_SOUNDS}
 };
 
 void processGoodGuys(void)
@@ -114,13 +56,13 @@ void processGoodGuys(void)
   if(myWaveFileJustFinishedPlaying(GOOD_GUYS_BUTTON))
   {
     setCockpitColor(SB_DIM);
-    setVFDmessageInactive(0);
+    setVFDmessageInactive(PRIORITY_GOOD_GUY_SOUNDS);
   }
   if (userInput == GOOD_GUYS_BUTTON)
   {  
     if(playWaveFile(goodGuySound[index].fileName,goodGuySound[index].playPriority,userInput))
     {
-      setVFDmessageActive(0, "    Good Guy");
+      setVFDmessageActive(PRIORITY_GOOD_GUY_SOUNDS, "    Good Guy");
       setCockpitColor(SB_GRN);
       index ++;
       if (index >= numberOfSounds) index = 0;
@@ -152,7 +94,7 @@ void processBadGuys(void)
   {  
     if(playWaveFile(badGuySound[index].fileName,badGuySound[index].playPriority,userInput))
     {
-      setVFDmessageActive(0, "     Bad Guy");
+      setVFDmessageActive(PRIORITY_BAD_GUY_SOUNDS, "     Bad Guy");
       setCockpitColor(SB_RED);
       index ++;
       if (index >= numberOfSounds) index = 0;
@@ -162,7 +104,7 @@ void processBadGuys(void)
   if(myWaveFileJustFinishedPlaying(BAD_GUYS_BUTTON))
   {
     setCockpitColor(SB_DIM);
-    setVFDmessageInactive(0);
+    setVFDmessageInactive(PRIORITY_BAD_GUY_SOUNDS);
   }
 }
 
@@ -188,12 +130,12 @@ void processR2D2(void)
   
   int numberOfSounds = sizeof(R2D2Sound)/sizeof(R2D2Sound[0]);
 
-  if(myWaveFileJustFinishedPlaying(WHEEL_R2))
+  if(myWaveFileJustFinishedPlaying(R2D2))
   {
     setR2D2Color(SB_OFF);
     return;
   }
-  else if(myWaveFileIsPlaying(WHEEL_R2))
+  else if(myWaveFileIsPlaying(R2D2))
   {
     if (millis() < waitTimer) return;
     
@@ -214,7 +156,7 @@ void processR2D2(void)
       color = 0;
     }
   }
-  else if (userInput == WHEEL_R2)
+  else if (userInput == R2D2)
   {  
     if(playWaveFile(R2D2Sound[index].fileName,R2D2Sound[index].playPriority,userInput))
     {

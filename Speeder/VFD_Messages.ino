@@ -3,7 +3,7 @@
 #define VFD_CLK 29
 #define VFD_DATA 30
 
-#define SIZE_OF_MESSAGE_BUFFER 3  // how many unique messages we can manage from different sources, system will display the highest priority message
+#define SIZE_OF_MESSAGE_BUFFER 6  // how many unique messages we can manage from different sources, system will display the highest priority message
 
 M66004Vfd vfd(VFD_CS, VFD_CLK, VFD_DATA);
 
@@ -26,7 +26,7 @@ void initializeVaccuumFluorescentDisplay(void)
   vfd.display();       // Enables normal character display.
   displayMessageSequenceTimer = millis();  // sync up the message sequencing timer
   
-  for (i=0; i<SIZE_OF_MESSAGE_BUFFER; i++)        //Initialize all messages in the buffer to the inactive state and null strings
+  for (i=SIZE_OF_MESSAGE_BUFFER-1; i>=0; i--)        //Initialize all messages in the buffer to the inactive state and null strings
   {
     setVFDmessageInactive(i);
   }
@@ -39,7 +39,7 @@ void processVFDmessages(void)
   
   if (VFD[0].refresh == 0) return;  // nothing to do if nothing has changed
   
-  for (i=0; i<SIZE_OF_MESSAGE_BUFFER; i++)
+  for (i=SIZE_OF_MESSAGE_BUFFER-1; i>=0; i--)
   {
     if(VFD[i].active == 1)
     {
