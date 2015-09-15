@@ -32,12 +32,20 @@ char scanSteeringWheel()
   }
 }
 
-void SetVibratorMotorLeft (char value)
+void initializeWheelInterface(void)
+{
+  pinMode(MOTOR_LF, OUTPUT);
+  pinMode(MOTOR_RT, OUTPUT);
+  SetVibratorMotorLeft(0);
+  SetVibratorMotorRight(0);
+}
+  
+void SetVibratorMotorLeft(char value)
 {
   analogWrite(MOTOR_LF, value);
 }
 
-void SetVibratorMotorRight (char value)
+void SetVibratorMotorRight(char value)
 {
   analogWrite(MOTOR_RT, value);
 }

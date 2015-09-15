@@ -7,7 +7,7 @@ Button bogusHackButton(A6, true, true, DEBOUNCE_MS);
 //define and declare the CB Mic Key input:
 #define CB_MIC_PULLUP true           //use the Arduino's internal pullup resistors
 #define CB_MIC_INVERT true           //high state = button not pressed
-#define CB_MINIMUM_TALK_TIME        3000  //time in milliseconds
+#define CB_MINIMUM_TALK_TIME        1500  //time in milliseconds
 Button cbMICkey(9, CB_MIC_PULLUP, CB_MIC_INVERT, DEBOUNCE_MS);
 
 //define and declare the R2D2 motion sensor input:
@@ -116,11 +116,21 @@ char scanPassengerButtons(void)
 // CB microphone input:
 char scanCBmicKey(void)
 {
+  static char buttonHeld = 0;
+
   //Read the buttons (this needs to be called often)
   cbMICkey.read();
   
-  if(cbMICkey.wasPressed()) // pressedFor(CB_MINIMUM_TALK_TIME))
+  if(cbMICkey.pressedFor(CB_MINIMUM_TALK_TIME))
+  {
+    buttonHeld = 1;
+  }
+  
+  if(cbMICkey.wasReleased() && buttonHeld == 1)
+  {
+    buttonHeld = 0;
     return(CB_MIC_PUSHBUTTON);
+  }
 }
 
 char scanR2D2motionSensor(void)

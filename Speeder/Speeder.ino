@@ -80,6 +80,7 @@ void setup() {
   Serial.println("Speeder Main System Control Module");
   Serial.print("Free Memory = ");  Serial.println(freeMemory());
   
+  initializeWheelInterface();
   initializeVaccuumFluorescentDisplay();
   initializeSDcard();
   initializeRandomGenerator();

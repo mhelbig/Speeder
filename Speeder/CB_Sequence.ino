@@ -22,7 +22,7 @@ void runCBsequence(void)
 
   if(myWaveFileJustFinishedPlaying(CB_MIC_PUSHBUTTON))
   {
-    setVFDmessageInactive(HYPERDRIVE_SOUNDS);
+    setVFDmessageInactive(PRIORITY_CB_SOUNDS);
     setCB_LED(0);
     
     index ++;      // increment the message index and wrap it around when we reach the end
@@ -37,7 +37,7 @@ void runCBsequence(void)
 
     if(playWaveFile(CBsound[index].fileName,CBsound[index].playPriority,userInput))
     {
-      setVFDmessageActive(HYPERDRIVE_SOUNDS, "Incoming Message");
+      setVFDmessageActive(PRIORITY_CB_SOUNDS, "Incoming Message");
       setCB_LED(1);
       waitTimer = millis();
     }
