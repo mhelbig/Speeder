@@ -14,7 +14,7 @@ void processSimpleSounds(void)
     if(playWaveFile("Take_Off.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Take off");
     break;
   case SIMPLE_SOUND_2:
-    if(playWaveFile("Blaster.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    BLASTER");
+    if(playWaveFile("Blaster.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Blaster");
     break;
   case SIMPLE_SOUND_3:
     if(playWaveFile("EXPRL.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "   Explosion");
@@ -26,6 +26,18 @@ void processSimpleSounds(void)
     if(playWaveFile("PRSTO.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Start up");
     break;
   case SIMPLE_SOUND_6:
+    if(playWaveFile("WELMG001.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "WELMG001.wav");
+    break;
+  case SIMPLE_SOUND_7:
+    if(playWaveFile("GATLSR.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, " Gatling Laser");
+    break;
+  case SIMPLE_SOUND_8:
+//    if(playWaveFile("XXXXXX.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    ??????");
+    break;
+  case SIMPLE_SOUND_9:
+//    if(playWaveFile("XXXXXX.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    ??????");
+    break;
+  case SIMPLE_SOUND_10:
 //    if(playWaveFile("XXXXXX.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    ??????");
     break;
   }

@@ -10,7 +10,10 @@ wavePlaylist CBsound[]=
   {"CB2_HS.wav",PRIORITY_CB_SOUNDS},
   {"CB3_HS.wav",PRIORITY_CB_SOUNDS},
   {"CB4_HC.wav",PRIORITY_CB_SOUNDS},
-  {"CB5_DV.wav",PRIORITY_CB_SOUNDS}
+  {"RedLDR.wav",PRIORITY_CB_SOUNDS},
+  {"CB5_DV.wav",PRIORITY_CB_SOUNDS},
+  {"WEML001.wav",PRIORITY_CB_SOUNDS},
+  {"Yoda001.wav",PRIORITY_CB_SOUNDS}
 };
 
 void runCBsequence(void)

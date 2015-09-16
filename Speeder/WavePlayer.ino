@@ -63,7 +63,7 @@ boolean playWaveFile(char *waveFile, int priority, char identifier)
   
   if (wave.isplaying)
   {
-    if(priority <= currentPlayPriority && priority != HYPERDRIVE_SOUNDS)
+    if(priority <= currentPlayPriority && priority != HYPERDRIVE_SOUNDS && priority != LASER_SOUND)
     {
       Serial.print(waveFile);
       Serial.println(" has lower or equal priority.  Ignoring.");

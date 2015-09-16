@@ -38,8 +38,8 @@ int hyperDriveMode = 0;          // processed hyperdrive mode (speeds + overheat
 int hyperDriveTemperature = 0;   // effective temperature of the hyperdrive, caused by running it in ludicrous speed
 bool hyperDriveHasBeenDisassembled = 0;
 
-#define HYPERDRIVE_WARNING_TEMPERATURE 10   // Time in seconds before hyperdrive gets hot when in Ludicrous speed mode
-#define HYPERDRIVE_OVERHEAT_TEMPERATURE 20  // Time in seconds before hyperdrive is damaged when in Ludicrous speed mode
+#define HYPERDRIVE_WARNING_TEMPERATURE 20   // Time in seconds before hyperdrive gets hot when in Ludicrous speed mode
+#define HYPERDRIVE_OVERHEAT_TEMPERATURE 30  // Time in seconds before hyperdrive is damaged when in Ludicrous speed mode
 
 void processHyperDrive(void)
 {
@@ -84,6 +84,7 @@ void processHyperDrive(void)
       else
       {
         updateHyperDriveDisplayAndSound(0);  //Temporarily reset the mode to trigger the system failure sound and message
+        updateHyperDriveDisplayAndSound(5);
       }
     }
   }
@@ -125,7 +126,7 @@ void processHyperDriveTemperature(void)
   {  
     oneSecondTimer = millis();
 
-    Serial.print("hyperDriveMode = "); Serial.println(hyperDriveMode);
+//    Serial.print("hyperDriveMode = "); Serial.println(hyperDriveMode);
     
     if(hyperDriveSpeed < 3)
     {

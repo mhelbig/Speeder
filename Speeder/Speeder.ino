@@ -23,17 +23,16 @@
 #define WHEEL_CTR_DN '9'  
 #define WHEEL_CTR_RT '0'
 
-//map the passenger buttons here:
+//map the passenger buttons here:  If the fucntion mimics a button on the wheel, use that #define name from above
+#define PASSENGER_BUTTON_1    WHEEL_I
+#define PASSENGER_BUTTON_2    WHEEL_RT_PU
+#define PASSENGER_BUTTON_3    WHEEL_LF_PD
+#define PASSENGER_BUTTON_4    WHEEL_B
+#define PASSENGER_BUTTON_5    WHEEL_START
+#define PASSENGER_BUTTON_6    WHEEL_II
+
 #define GOOD_GUYS_BUTTON      'Q'
 #define BAD_GUYS_BUTTON       'W'
-
-// some of the passenger buttons mimic buttons on the wheel.  Map them here:
-#define PASSENGER_BUTTON_1    WHEEL_I
-#define PASSENGER_BUTTON_2    WHEEL_LF_PU
-#define PASSENGER_BUTTON_3    WHEEL_RT_PU
-#define PASSENGER_BUTTON_4    WHEEL_LF_PD
-#define PASSENGER_BUTTON_5    WHEEL_RT_PD
-#define PASSENGER_BUTTON_6    WHEEL_START
 
 // map the various functions to the associated button inputs that activate them
 #define LASER_CANNON_BUTTON   WHEEL_LF_PU
@@ -41,9 +40,13 @@
 #define SIMPLE_SOUND_1        WHEEL_I
 #define SIMPLE_SOUND_2        WHEEL_RT_PU
 #define SIMPLE_SOUND_3        WHEEL_LF_PD
-#define SIMPLE_SOUND_4        WHEEL_RT_PD
+#define SIMPLE_SOUND_4        WHEEL_B
 #define SIMPLE_SOUND_5        WHEEL_START
 #define SIMPLE_SOUND_6        WHEEL_II
+#define SIMPLE_SOUND_7        WHEEL_A
+#define SIMPLE_SOUND_8        WHEEL_CTR_LF
+#define SIMPLE_SOUND_9        WHEEL_CTR_DN
+#define SIMPLE_SOUND_10       WHEEL_CTR_RT
 
 // assorted character mappings used internally to signal things that are going on
 #define CB_MIC_PUSHBUTTON 'C'
