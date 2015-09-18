@@ -65,7 +65,7 @@ void processLaserCannon(void)
     return;
   }
   
-  if (userInput == LASER_CANNON_BUTTON)  // check for user input and start the laser cannon fire sequence
+  if (userInput == LASER_CANNON)  // check for user input and start the laser cannon fire sequence
   {  
     waitTimer = millis() + LASER_LIGHT_CYCLE_TIME;
     laserCannonBrightness = 1;
@@ -80,14 +80,14 @@ void processLaserCannon(void)
 
 void updateLaserCannonSoundAndLight(void)
 {
-  if(myWaveFileJustFinishedPlaying(LASER_CANNON_BUTTON)) // shut off the vibrator motors and laser cannon light when the sound is done playing
+  if(myWaveFileJustFinishedPlaying(LASER_CANNON)) // shut off the vibrator motors and laser cannon light when the sound is done playing
   {
     setVFDmessageInactive(LASER_SOUND);
     SetVibratorMotorLeft(0);
     setLaserCannonBrightness(0,laserCannonTemperature>LASER_GETTING_HOT);
   }
   
-  else if(myWaveFileIsPlaying(LASER_CANNON_BUTTON))  // modulate the light inside the laser cannon when the sound is playing
+  else if(myWaveFileIsPlaying(LASER_CANNON))  // modulate the light inside the laser cannon when the sound is playing
   {
     if (millis() < waitTimer) return;
     

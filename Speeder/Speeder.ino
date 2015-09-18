@@ -5,48 +5,23 @@
 #include <Button.h>    // Discrete IO interface
 #include <M66004Vfd.h> // VFD library.
 
-// map wheel buttons to identifier characters:
-#define WHEEL_A      'G'
-#define WHEEL_B      'B'
-#define WHEEL_I      'T'
-#define WHEEL_II     '2'
-#define WHEEL_START  'S'
-#define WHEEL_SELECT 'M'
-#define WHEEL_L2     'L'
-#define WHEEL_R2     'R'
-#define WHEEL_LF_PU  'P'
-#define WHEEL_RT_PU  'D'
-#define WHEEL_LF_PD  'E'
-#define WHEEL_RT_PD  'N'
-#define WHEEL_CTR_FW '7'
-#define WHEEL_CTR_LF '8'
-#define WHEEL_CTR_DN '9'  
-#define WHEEL_CTR_RT '0'
+// map the various actions to characters
+#define SIMPLE_SOUND_1        '1'
+#define SIMPLE_SOUND_2        '2'
+#define SIMPLE_SOUND_3        '3'
+#define SIMPLE_SOUND_4        '4'
+#define SIMPLE_SOUND_5        '5'
+#define SIMPLE_SOUND_6        '6'
+#define SIMPLE_SOUND_7        '7'
+#define SIMPLE_SOUND_8        '8'
+#define SIMPLE_SOUND_9        '9'
+#define SIMPLE_SOUND_10       '0'
 
-//map the passenger buttons here:  If the fucntion mimics a button on the wheel, use that #define name from above
-#define PASSENGER_BUTTON_1    WHEEL_I
-#define PASSENGER_BUTTON_2    WHEEL_RT_PU
-#define PASSENGER_BUTTON_3    WHEEL_LF_PD
-#define PASSENGER_BUTTON_4    WHEEL_B
-#define PASSENGER_BUTTON_5    WHEEL_START
-#define PASSENGER_BUTTON_6    WHEEL_II
+#define LASER_CANNON          'L'
+#define GOOD_GUYS             'G'
+#define BAD_GUYS              'B'
 
-#define GOOD_GUYS_BUTTON      'Q'
-#define BAD_GUYS_BUTTON       'W'
-
-// map the various functions to the associated button inputs that activate them
-#define LASER_CANNON_BUTTON   WHEEL_LF_PU
-
-#define SIMPLE_SOUND_1        WHEEL_I
-#define SIMPLE_SOUND_2        WHEEL_RT_PU
-#define SIMPLE_SOUND_3        WHEEL_LF_PD
-#define SIMPLE_SOUND_4        WHEEL_B
-#define SIMPLE_SOUND_5        WHEEL_START
-#define SIMPLE_SOUND_6        WHEEL_II
-#define SIMPLE_SOUND_7        WHEEL_A
-#define SIMPLE_SOUND_8        WHEEL_CTR_LF
-#define SIMPLE_SOUND_9        WHEEL_CTR_DN
-#define SIMPLE_SOUND_10       WHEEL_CTR_RT
+#define NOT_ASSIGNED          ' '
 
 // assorted character mappings used internally to signal things that are going on
 #define CB_MIC_PUSHBUTTON 'C'
@@ -54,6 +29,35 @@
 #define FIX_HD            'F'
 #define FIX_LC            'K'
 #define SIMPLE_SND        's'
+
+
+// map wheel buttons to identifier characters:
+#define WHEEL_A      SIMPLE_SOUND_7
+#define WHEEL_B      SIMPLE_SOUND_4
+#define WHEEL_I      SIMPLE_SOUND_1
+#define WHEEL_II     SIMPLE_SOUND_6
+#define WHEEL_START  SIMPLE_SOUND_5
+#define WHEEL_SELECT NOT_ASSIGNED
+#define WHEEL_L2     NOT_ASSIGNED
+#define WHEEL_R2     NOT_ASSIGNED
+#define WHEEL_LF_PU  LASER_CANNON
+#define WHEEL_RT_PU  SIMPLE_SOUND_2
+#define WHEEL_LF_PD  SIMPLE_SOUND_3
+#define WHEEL_RT_PD  NOT_ASSIGNED
+#define WHEEL_CTR_FW NOT_ASSIGNED
+#define WHEEL_CTR_LF SIMPLE_SOUND_8
+#define WHEEL_CTR_DN SIMPLE_SOUND_9 
+#define WHEEL_CTR_RT SIMPLE_SOUND_10
+
+//map the passenger buttons to the functions:
+#define PASSENGER_BUTTON_1    SIMPLE_SOUND_1
+#define PASSENGER_BUTTON_2    SIMPLE_SOUND_2
+#define PASSENGER_BUTTON_3    SIMPLE_SOUND_3
+#define PASSENGER_BUTTON_4    SIMPLE_SOUND_4
+#define PASSENGER_BUTTON_5    SIMPLE_SOUND_5
+#define PASSENGER_BUTTON_6    SIMPLE_SOUND_6
+#define GOOD_GUYS_BUTTON      GOOD_GUYS
+#define BAD_GUYS_BUTTON       BAD_GUYS
 
 // Set the sound priorities and corresponding VFD buffers, higher number = higher priority
 // Remember to adjust the size of the message display buffer if you increase the highest priority number
