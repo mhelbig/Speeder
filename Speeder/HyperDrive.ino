@@ -3,6 +3,7 @@
 #define INVERT true        //high state = button not pressed for all inputs
 #define DEBOUNCE_MS 20     //debounce time = 20 mS for all inputs
 #define MINIMUM_REPAIR_TIME 2000 // Amount of time (in mSec) that the hyperdrive needs to be dissasembled before it can be tested and reactivated
+#define HYPERDRIVE_VIBRATOR_MOTOR_SPEED 255 // PWM level of the hyperdrive vibrator when the hyperdrive is running hot
 
 // define the throttle parameters
 #define THROTTLE_INPUT            A0
@@ -131,6 +132,7 @@ void processHyperDriveTemperature(void)
     if(hyperDriveSpeed < 3)
     {
       hyperDriveTemperature = 0;  // this particular spaceship's hyperdrive cools off instantly when running below ludicrous speed
+      SetVibratorMotorRight(0);
     }
     else
     {
@@ -140,10 +142,12 @@ void processHyperDriveTemperature(void)
     if (hyperDriveTemperature >= HYPERDRIVE_OVERHEAT_TEMPERATURE )
     {
       hyperDriveMode = 5;
+      SetVibratorMotorRight(0);
     }
     else if (hyperDriveTemperature > HYPERDRIVE_WARNING_TEMPERATURE )
     {
       hyperDriveMode = 4;
+      SetVibratorMotorRight(HYPERDRIVE_VIBRATOR_MOTOR_SPEED);
     }
     else
     {
