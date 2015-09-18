@@ -117,5 +117,6 @@ void loop()
   
   processVFDmessages();           // display the highest priority message on the VFD screen
   processShiftBrite();            // update the shiftbrite LEDs
+  processCB_LED();
 }
 

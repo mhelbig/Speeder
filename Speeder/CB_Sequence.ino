@@ -3,6 +3,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define CB_MESSAGE_RESET_TIME             60000
 #define CB_MIC_LED                        8
+#define CB_LED_BLINK_PERIOD               250 // time in milliseconds
+
+unsigned char CB_LED_State = 0;
 
 wavePlaylist CBsound[]=
 {
@@ -41,7 +44,7 @@ void runCBsequence(void)
     if(playWaveFile(CBsound[index].fileName,CBsound[index].playPriority,userInput))
     {
       setVFDmessageActive(PRIORITY_CB_SOUNDS, "Incoming Message");
-      setCB_LED(1);
+      setCB_LED(2);
       waitTimer = millis();
     }
   }
@@ -56,9 +59,37 @@ void runCBsequence(void)
   }
 }
 
-void setCB_LED(bool state)
+void processCB_LED(void)
 {
-  digitalWrite(CB_MIC_LED, state);
+  static long CB_LED_BlinkTimer;
+  static bool CB_LED_BlinkState = 0;
+  
+  if (millis() > CB_LED_BlinkTimer)
+  {
+    CB_LED_BlinkTimer = millis() + CB_LED_BLINK_PERIOD;
+    CB_LED_BlinkState = !CB_LED_BlinkState;
+  }
+  
+  if(CB_LED_State == 2)
+  {
+    digitalWrite(CB_MIC_LED, CB_LED_BlinkState);
+  }  
+
+  if(CB_LED_State == 0)
+  {
+    digitalWrite(CB_MIC_LED, 0);
+  }
+  
+  if(CB_LED_State == 1)
+  {
+    digitalWrite(CB_MIC_LED, 1);
+  }
+  
+}  
+
+void setCB_LED(char state)
+{
+  CB_LED_State = state;
 }
 
 void initializeCB(void)

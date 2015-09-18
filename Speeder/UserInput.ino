@@ -121,9 +121,19 @@ char scanCBmicKey(void)
   //Read the buttons (this needs to be called often)
   cbMICkey.read();
   
+  if(cbMICkey.wasPressed())
+  {
+    setCB_LED(1);
+  }
+  if(cbMICkey.wasReleased())
+  {
+    setCB_LED(0);
+  }
+  
   if(cbMICkey.pressedFor(CB_MINIMUM_TALK_TIME))
   {
     buttonHeld = 1;
+    setCB_LED(0);
   }
   
   if(cbMICkey.wasReleased() && buttonHeld == 1)
