@@ -107,21 +107,23 @@ void initializeSDcard(void)
 /*
  * print error message and halt
  */
-void error_P(const char *str) {
+void error_P(const char *str) 
+{
   PgmPrint("Error: ");
   SerialPrint_P(str);
   sdErrorCheck();
-//  while(1);
 }
 
 /*
  * print error message and halt if SD I/O error, great for debugging
  */
-void sdErrorCheck(void) {
+void sdErrorCheck(void) 
+{
   if (!card.errorCode()) return;
   PgmPrint("\r\nSD I/O error: ");
   Serial.print(card.errorCode(), HEX);
   PgmPrint(", ");
   Serial.println(card.errorData(), HEX);
+  directDisplayVFDmessage(" SD Card Error");
   while(1);
 }

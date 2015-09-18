@@ -28,7 +28,7 @@
 #define R2D2              'V'
 #define FIX_HD            'F'
 #define FIX_LC            'K'
-#define SIMPLE_SND        's'
+#define SIMPLE_SND        'S'
 
 
 // map wheel buttons to identifier characters:
