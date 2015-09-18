@@ -104,19 +104,20 @@ void setup() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop()
 {
-  processHyperDrive();            // Takes care of throttle, temperature, repair
+  processHyperDrive();                        // Takes care of throttle, temperature, repair
 
-  userInput = scanForUserInput(); // returns identifier key to call associated functions below
-  processSimpleSounds();          // Functions that just play sound files
-  runCBsequence();                // Keeps track of CB sequence and plays recorded messages
-  processGoodGuys();              // Plays series of good guy sound files
-  processBadGuys();               // Plays series of bad guy sound files
-  processR2D2();                  // WHEEL_R2 plays sounds and color sequences in response to motion sensor
-  processLaserCannon();           // Takes care of firing and eventually overheating and repair
-  playRandomSounds();             // Random sounds play throughout
+  userInput = scanForUserInput();             // returns identifier key to call associated functions below
+  processSimpleSounds();                      // Functions that just play sound files
+  runCBsequence();                            // Keeps track of CB sequence and plays recorded messages
+  processGoodGuys();                          // Plays series of good guy sound files
+  processBadGuys();                           // Plays series of bad guy sound files
+  processR2D2();                              // WHEEL_R2 plays sounds and color sequences in response to motion sensor
+  processLaserCannon();                       // Takes care of firing and eventually overheating and repair
+  processLaserCannonLightAndVibratorMotor();  //Takes care of the laser Shiftbrite and Wheel vibrator motor
+  playRandomSounds();                         // Random sounds play throughout
   
-  processVFDmessages();           // display the highest priority message on the VFD screen
-  processShiftBrite();            // update the shiftbrite LEDs
+  processVFDmessages();                       // display the highest priority message on the VFD screen
+  processShiftBrite();                        // update the shiftbrite LEDs
   processCB_LED();
 }
 

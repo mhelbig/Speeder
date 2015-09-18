@@ -25,7 +25,6 @@ void processLaserCannon(void)
  //Read all the electrical compartment inputs (this needs to be called often)
   laserCannonOK.read();
   laserCannonTest.read();
-  updateLaserCannonSoundAndLight();
 
   if(userInput == FIX_LC)
   {
@@ -68,26 +67,35 @@ void processLaserCannon(void)
   if (userInput == LASER_CANNON)  // check for user input and start the laser cannon fire sequence
   {  
     waitTimer = millis() + LASER_LIGHT_CYCLE_TIME;
-    laserCannonBrightness = 1;
-    playWaveFile("Laser.wav",4,userInput);
-    setVFDmessageActive(LASER_SOUND, "  Laser Cannon");
-    SetVibratorMotorLeft(127);
-    setLaserCannonBrightness(laserCannonBrightness,laserCannonTemperature>LASER_GETTING_HOT);
-    laserCannonTemperature += LASER_THERMAL_RISE;
-    Serial.print("laserCannonTemperature = "); Serial.println(laserCannonTemperature);
+    fireLaserCannonLightAndVibratorMotor();
   }
 }
 
-void updateLaserCannonSoundAndLight(void)
+void fireLaserCannonLightAndVibratorMotor(void)
 {
-  if(myWaveFileJustFinishedPlaying(LASER_CANNON)) // shut off the vibrator motors and laser cannon light when the sound is done playing
+  SetVibratorMotorLeft(127);
+  setLaserCannonBrightness(laserCannonBrightness,laserCannonTemperature>LASER_GETTING_HOT);
+  laserCannonBrightness = 1;
+  playWaveFile("Laser.wav",LASER_SOUND,LASER_CANNON);
+  setVFDmessageActive(LASER_SOUND, "  Laser Cannon");
+  laserCannonTemperature += LASER_THERMAL_RISE;
+  Serial.print("laserCannonTemperature = "); Serial.println(laserCannonTemperature);
+}
+
+void processLaserCannonLightAndVibratorMotor(void)
+{
+  if(myWaveFileJustFinishedPlaying(LASER_CANNON))
   {
     setVFDmessageInactive(LASER_SOUND);
+  }
+
+  if(laserCannonBrightness <= LASER_FADE_FACTOR) // shut off the vibrator motors when the laser cannon light is out
+  {
     SetVibratorMotorLeft(0);
     setLaserCannonBrightness(0,laserCannonTemperature>LASER_GETTING_HOT);
   }
   
-  else if(myWaveFileIsPlaying(LASER_CANNON))  // modulate the light inside the laser cannon when the sound is playing
+  else // modulate the light inside the laser cannon
   {
     if (millis() < waitTimer) return;
     
