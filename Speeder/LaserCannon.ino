@@ -5,7 +5,7 @@
 #define LASER_GETTING_HOT                30  // temperature where color of laser cannon changes to show that it's getting hot
 #define LASER_OVERHEATED                 40  // laser cannon temperature when overheated
 #define PRIORITY_LASER_CANNON            5
-#define VFD_BUFFER_LASER_CANNON          
+#define LASER_VIBRATOR_MOTOR_SPEED       255  // PWM value sent to drive the vibrator motor
 
 // define and declare the electrical compartment repair inputs:
 #define LASERCANNON_OK   26
@@ -73,7 +73,7 @@ void processLaserCannon(void)
 
 void fireLaserCannonLightAndVibratorMotor(void)
 {
-  SetVibratorMotorLeft(127);
+  SetVibratorMotorLeft(LASER_VIBRATOR_MOTOR_SPEED);
   setLaserCannonBrightness(laserCannonBrightness,laserCannonTemperature>LASER_GETTING_HOT);
   laserCannonBrightness = 1;
   playWaveFile("Laser.wav",LASER_SOUND,LASER_CANNON);
