@@ -27,7 +27,7 @@
 #define CB_MIC_PUSHBUTTON 'C'
 #define R2D2              'V'
 #define FIX_HD            'F'
-#define FIX_LC            'K'
+#define FIX_LC            'F'
 #define SIMPLE_SND        'S'
 
 

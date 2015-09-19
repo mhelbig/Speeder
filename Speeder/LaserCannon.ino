@@ -38,6 +38,7 @@ void processLaserCannon(void)
     if (laserCannonOK.releasedFor(MINIMUM_REPAIR_TIME))
     {
       electricalCompartmentHasBeenDisassembled = 1;
+      Serial.println("electricalCompartmentHasBeenDisassembled");
     }
     
     if ( laserCannonTest.wasPressed() )
@@ -49,14 +50,14 @@ void processLaserCannon(void)
       }
       else
       {
-        // do something to tell them they failed
+        playWaveFile("ENRSF1.wav",LASER_SOUND,userInput);
       }
     }
     return;
   }
 
   processLaserCannonTemperature();
-  if(laserCannonTemperature > LASER_OVERHEATED) // check if the laser cannon temperature is too high
+  if(laserCannonTemperature > LASER_OVERHEATED || laserCannonOK.isReleased()) // check if the laser cannon temperature is too high or the connection inside the electrical compartment is open
   {
     playWaveFile("ENRSF1.wav",LASER_SOUND,userInput);
     setVFDmessageActive(LASER_SOUND, " Laser Overheat");
@@ -84,7 +85,7 @@ void fireLaserCannonLightAndVibratorMotor(void)
 
 void processLaserCannonLightAndVibratorMotor(void)
 {
-  if(myWaveFileJustFinishedPlaying(LASER_CANNON))
+  if(myWaveFileJustFinishedPlaying(LASER_CANNON) && !laserCannonIsOverheated)
   {
     setVFDmessageInactive(LASER_SOUND);
   }
