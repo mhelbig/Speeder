@@ -39,7 +39,6 @@ void processLaserCannon(void)
     if (laserCannonOK.releasedFor(MINIMUM_REPAIR_TIME))
     {
       electricalCompartmentHasBeenDisassembled = 1;
-      Serial.println("electricalCompartmentHasBeenDisassembled");
     }
     
     if ( laserCannonTest.wasPressed() )
@@ -136,7 +135,7 @@ void resetLaserCannon(void)
   electricalCompartmentHasBeenDisassembled = 0;
   setLaserCannonBrightness(0, 0);
   setVFDmessageInactive(LASER_SOUND);
-  // PLAY SOUND HERE !!!!!!!!!!
+  playWaveFile("ELRSP1.wav",LASER_SOUND,LASER_CANNON);
 }
 
 

@@ -3,7 +3,7 @@
 #define INVERT true        //high state = button not pressed for all inputs
 #define DEBOUNCE_MS 20     //debounce time = 20 mS for all inputs
 #define MINIMUM_REPAIR_TIME 2000 // Amount of time (in mSec) that the hyperdrive needs to be dissasembled before it can be tested and reactivated
-#define HYPERDRIVE_VIBRATOR_MOTOR_SPEED 255 // PWM level of the hyperdrive vibrator when the hyperdrive is running hot
+#define HYPERDRIVE_VIBRATOR_MOTOR_SPEED 100 // PWM level of the hyperdrive vibrator when the hyperdrive is running hot
 
 // define the throttle parameters
 #define THROTTLE_INPUT            A0
@@ -162,6 +162,9 @@ void resetHyperDrive(void)
   hyperDriveTemperature = 0;
   hyperDriveHasBeenDisassembled = 0;
   hyperDriveMode = 0;
+  hyperDriveSpeed = 0;
+  throttlePosition = 0;
+  playWaveFile("ENRSP1.wav",HYPERDRIVE_SOUNDS,'.');
   Serial.println("HyperDrive Reset");
 }
 
