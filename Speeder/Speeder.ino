@@ -71,6 +71,8 @@
 #define PRIORITY_RANDOM_SOUNDS   1
 #define PRIORITY_THEME_SONG      0
 
+char inDevelopmentMode = 0;      // flag used to override certain hardware functions so they don't force error conditions
+
 char userInput;
 
 struct wavePlaylist

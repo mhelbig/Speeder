@@ -29,6 +29,7 @@ void processLaserCannon(void)
   if(userInput == FIX_LC)
   {
     resetLaserCannon();
+    inDevelopmentMode = 1;
     Serial.println("Manual LaserCannon reset via console input");
     return;
   }    
@@ -57,7 +58,7 @@ void processLaserCannon(void)
   }
 
   processLaserCannonTemperature();
-  if(laserCannonTemperature > LASER_OVERHEATED || laserCannonOK.isReleased()) // check if the laser cannon temperature is too high or the connection inside the electrical compartment is open
+  if(laserCannonTemperature > LASER_OVERHEATED || (laserCannonOK.isReleased() && !inDevelopmentMode) ) // check if the laser cannon temperature is too high or the connection inside the electrical compartment is open
   {
     playWaveFile("ENRSF1.wav",LASER_SOUND,userInput);
     setVFDmessageActive(LASER_SOUND, " Laser Overheat");

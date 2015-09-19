@@ -50,7 +50,7 @@ void processHyperDrive(void)
   
   updateHyperDriveDisplayAndSound(hyperDriveMode);
 
-  if(hyperDriveOK.isReleased())    //check to see if engine is apart
+  if(hyperDriveOK.isReleased() && !inDevelopmentMode)    //check to see if engine is apart and we're not in development mode
   {
     hyperDriveMode = 5;            //set it to fix hyperdrive mode if it's apart
   }
@@ -67,6 +67,7 @@ void processHyperDrive(void)
   if(userInput == FIX_HD)
   {
     resetHyperDrive();
+    inDevelopmentMode = 1;
     Serial.println("Manual HyperDrive reset via console input");
     return;
   }
