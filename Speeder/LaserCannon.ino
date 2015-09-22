@@ -3,7 +3,7 @@
 #define LASER_FADE_FACTOR                .04 // Rate that laser cannon dims (from 100 down to 0)
 #define LASER_THERMAL_RISE               10  // amount of thermal rise each time the laser is fired (laser cools off one unit per second)
 #define LASER_GETTING_HOT                30  // temperature where color of laser cannon changes to show that it's getting hot
-#define LASER_OVERHEATED                 40  // laser cannon temperature when overheated
+#define LASER_OVERHEATED                 60  // laser cannon temperature when overheated
 #define PRIORITY_LASER_CANNON            5
 #define LASER_VIBRATOR_MOTOR_SPEED       255  // PWM value sent to drive the vibrator motor
 

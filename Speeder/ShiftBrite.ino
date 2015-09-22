@@ -4,14 +4,14 @@
 #define SBlatchpin  33  // LI
 #define SBdatapin   31  // DI
 
-#define NUM_SHIFTBRITES 4
+#define NUM_SHIFTBRITES 5
 
 // define the shiftbrites in the serial chain, last device first
-#define SB_LASERCANNON   2
-#define SB_THRUSTERS     0
-#define SB_R2D2          1
-#define SB_COCKPIT_PAS   5
-#define SB_COCKPIT_DRV   3
+#define SB_LASERCANNON   0
+#define SB_THRUSTERS     1
+#define SB_R2D2          2
+#define SB_COCKPIT_PAS   3
+#define SB_COCKPIT_DRV   4
 
 // define some common RGB color values
 #define SB_OFF     0,    0,    0
@@ -41,7 +41,7 @@
 #define HD_OVERHEATED  5
 
 unsigned long SB_CommandPacket;
-int LEDChannels[NUM_SHIFTBRITES][3] = {0};
+int LEDChannels[NUM_SHIFTBRITES+1][3] = {0};
 int SB_CommandMode;
 int SB_RedCommand;
 int SB_GreenCommand;
@@ -120,20 +120,28 @@ void setR2D2Color(int r, int g, int b)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setLaserCannonBrightness(float brightness, bool gettingHot)
 {
+  SB_changed = 1;
+  
+  if (brightness < 0.1)
+  {
+    LEDChannels[SB_LASERCANNON][0] = 0;
+    LEDChannels[SB_LASERCANNON][1] = 0;
+    LEDChannels[SB_LASERCANNON][2] = 0;
+    return;
+  }
   if (!gettingHot)
   {
-    LEDChannels[SB_LASERCANNON][0] = LASER_CANNON_COLOR_R * brightness;
-    LEDChannels[SB_LASERCANNON][1] = LASER_CANNON_COLOR_G * brightness;
-    LEDChannels[SB_LASERCANNON][2] = LASER_CANNON_COLOR_B * brightness;
+    LEDChannels[SB_LASERCANNON][0] = LASER_CANNON_COLOR_R;// * brightness;
+    LEDChannels[SB_LASERCANNON][1] = LASER_CANNON_COLOR_G;// * brightness;
+    LEDChannels[SB_LASERCANNON][2] = LASER_CANNON_COLOR_B;// * brightness;
   }
   else
   {
     if(brightness < LASER_CANNON_HOT_GLOW) brightness = LASER_CANNON_HOT_GLOW;
-    LEDChannels[SB_LASERCANNON][0] = LASER_CANNON_HOT_R * brightness;
-    LEDChannels[SB_LASERCANNON][1] = LASER_CANNON_HOT_G * brightness;
-    LEDChannels[SB_LASERCANNON][2] = LASER_CANNON_HOT_B * brightness;
+    LEDChannels[SB_LASERCANNON][0] = LASER_CANNON_HOT_R;// * brightness;
+    LEDChannels[SB_LASERCANNON][1] = LASER_CANNON_HOT_G;// * brightness;
+    LEDChannels[SB_LASERCANNON][2] = LASER_CANNON_HOT_B;// * brightness;
   }
-  SB_changed = 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,10 +181,10 @@ void SB_SendPacket()
    SB_CommandPacket = (SB_CommandPacket << 10)  | (SB_RedCommand & 1023);
    SB_CommandPacket = (SB_CommandPacket << 10)  | (SB_GreenCommand & 1023);
 
-   shiftOut(SBdatapin, SBclockpin, MSBFIRST, SB_CommandPacket >> 24);
-   shiftOut(SBdatapin, SBclockpin, MSBFIRST, SB_CommandPacket >> 16);
-   shiftOut(SBdatapin, SBclockpin, MSBFIRST, SB_CommandPacket >> 8);
-   shiftOut(SBdatapin, SBclockpin, MSBFIRST, SB_CommandPacket);
+   shiftOutSlow(SBdatapin, SBclockpin, MSBFIRST, SB_CommandPacket >> 24);
+   shiftOutSlow(SBdatapin, SBclockpin, MSBFIRST, SB_CommandPacket >> 16);
+   shiftOutSlow(SBdatapin, SBclockpin, MSBFIRST, SB_CommandPacket >> 8);
+   shiftOutSlow(SBdatapin, SBclockpin, MSBFIRST, SB_CommandPacket);
 }
 
 void initializeShiftBrite(void)
@@ -205,3 +213,21 @@ void initializeShiftBrite(void)
   setLaserCannonBrightness(0,0);
   setR2D2Color(SB_OFF);
  }
+ 
+ void shiftOutSlow(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, byte val)
+{
+     int i;
+
+     for (i = 0; i < 8; i++)  {
+           if (bitOrder == LSBFIRST)
+                 digitalWrite(dataPin, !!(val & (1 << i)));
+           else      
+                 digitalWrite(dataPin, !!(val & (1 << (7 - i))));
+                 
+           digitalWrite(clockPin, HIGH);
+           delayMicroseconds(25);
+
+           digitalWrite(clockPin, LOW);            
+           delayMicroseconds(25);
+     }
+}
