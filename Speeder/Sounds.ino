@@ -11,34 +11,34 @@ void processSimpleSounds(void)
   switch (userInput)
   {  
   case SIMPLE_SOUND_1:
-    if(playWaveFile("Take_Off.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Take off");
-    break;
-  case SIMPLE_SOUND_2:
     if(playWaveFile("Blaster.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Blaster");
     break;
-  case SIMPLE_SOUND_3:
-    if(playWaveFile("EXPRL.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "   Explosion");
+  case SIMPLE_SOUND_2:
+    if(playWaveFile("LASER2.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "   Laser Gun");
     break;
-  case SIMPLE_SOUND_4:
+  case SIMPLE_SOUND_3:
     if(playWaveFile("Gun9mm.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "      9mm");
     break;
+  case SIMPLE_SOUND_4:
+    if(playWaveFile("EXPRL.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Explosion");
+    break;
   case SIMPLE_SOUND_5:
-    if(playWaveFile("PRSTO.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Start up");
+    if(playWaveFile("MGUNFST.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "  Machine Gun");
     break;
   case SIMPLE_SOUND_6:
-    if(playWaveFile("WELMG001.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "WELMG001.wav");
+    if(playWaveFile("GATLSR.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "  Gatlin Laser");
     break;
   case SIMPLE_SOUND_7:
-    if(playWaveFile("GATLSR.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, " Gatling Laser");
+    if(playWaveFile("SSPB01.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Thruster");
     break;
   case SIMPLE_SOUND_8:
-//    if(playWaveFile("XXXXXX.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    ??????");
+    if(playWaveFile("SSPB02.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Thruster");
     break;
   case SIMPLE_SOUND_9:
-//    if(playWaveFile("XXXXXX.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    ??????");
+    if(playWaveFile("SSPB04.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Thruster");
     break;
   case SIMPLE_SOUND_10:
-//    if(playWaveFile("XXXXXX.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    ??????");
+    if(playWaveFile("LSSRB02.wav",PRIORITY_SIMPLE_SOUNDS,SIMPLE_SND)) setVFDmessageActive(PRIORITY_SIMPLE_SOUNDS, "    Thruster");
     break;
   }
 }
@@ -48,14 +48,18 @@ void processSimpleSounds(void)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 wavePlaylist goodGuySound[]=
 {
-  {"Yoda001.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"CB1_LS.wav" ,PRIORITY_GOOD_GUY_SOUNDS},
   {"Chew001.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"Chew002.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"OBIWAN1.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"OBIWAN2.wav",PRIORITY_GOOD_GUY_SOUNDS},
+  {"RedLDR.wav" ,PRIORITY_GOOD_GUY_SOUNDS},
+  {"Yoda001.wav",PRIORITY_GOOD_GUY_SOUNDS},
   {"Yoda002.wav",PRIORITY_GOOD_GUY_SOUNDS},
   {"Yoda003.wav",PRIORITY_GOOD_GUY_SOUNDS},
-  {"Chew002.wav",PRIORITY_GOOD_GUY_SOUNDS},
   {"Yoda004.wav",PRIORITY_GOOD_GUY_SOUNDS},
   {"Yoda005.wav",PRIORITY_GOOD_GUY_SOUNDS},
-  {"Chew003.wav",PRIORITY_GOOD_GUY_SOUNDS}
+  {"Yoda006.wav",PRIORITY_GOOD_GUY_SOUNDS}
 };
 
 void processGoodGuys(void)
@@ -88,11 +92,13 @@ void processGoodGuys(void)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 wavePlaylist badGuySound[]=
 {
-  {"Jaba001.wav",PRIORITY_BAD_GUY_SOUNDS},
-  {"Alien01.wav",PRIORITY_BAD_GUY_SOUNDS},
-  {"Alien02.wav",PRIORITY_BAD_GUY_SOUNDS},
-  {"EN_TH01.wav",PRIORITY_BAD_GUY_SOUNDS},
-  {"EN_TH02.wav",PRIORITY_BAD_GUY_SOUNDS}
+  {"Alien01.wav" ,PRIORITY_BAD_GUY_SOUNDS},
+  {"Alien02.wav" ,PRIORITY_BAD_GUY_SOUNDS},
+  {"CB5_DV.wav"  ,PRIORITY_BAD_GUY_SOUNDS},
+  {"COUNTD.wav"  ,PRIORITY_BAD_GUY_SOUNDS},
+  {"EMPEROR.wav" ,PRIORITY_BAD_GUY_SOUNDS},
+  {"Jaba001.wav" ,PRIORITY_BAD_GUY_SOUNDS},
+  {"Vader001.wav",PRIORITY_BAD_GUY_SOUNDS}
 };
 
 void processBadGuys(void)
